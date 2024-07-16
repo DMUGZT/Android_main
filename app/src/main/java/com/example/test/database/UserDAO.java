@@ -52,4 +52,11 @@ public class UserDAO {
         cursor.close();
         return isValid;
     }
+
+    public void updatePassword(String username, String newPassword) {
+        ContentValues values = new ContentValues();
+        values.put(DatabaseHelper.COLUMN_PASSWORD, newPassword);
+
+        database.update(DatabaseHelper.TABLE_USER, values, DatabaseHelper.COLUMN_USERNAME + " = ?", new String[]{username});
+    }
 }

@@ -30,7 +30,7 @@
         android:id="@+id/usernameEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Username"
+        android:hint="账户"
         android:inputType="text"
         android:layout_marginTop="20dp" />
 

@@ -20,6 +20,7 @@ public class LoginActivity extends Activity {
     private ImageButton togglePasswordVisibilityButton;
     private boolean isPasswordVisible = false;
     private EditText usernameEditText, passwordEditText;
+    private TextView forgotPasswordTextView;
     private Button loginButton;
     private UserDAO userDAO;
 
@@ -34,6 +35,7 @@ public class LoginActivity extends Activity {
         loginButton = findViewById(R.id.loginButton);
         usernameEditText = findViewById(R.id.usernameEditText);
         passwordEditText = findViewById(R.id.passwordEditText);
+        forgotPasswordTextView = findViewById(R.id.forgotPasswordTextView);
         userDAO = new UserDAO(this);
 
         textView.setOnClickListener(new View.OnClickListener() {
@@ -43,6 +45,15 @@ public class LoginActivity extends Activity {
                 startActivity(intent);
             }
         });
+
+        forgotPasswordTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(LoginActivity.this, ForgotPasswordActivity.class);
+                startActivity(intent);
+            }
+        });
+
 
         togglePasswordVisibilityButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -80,9 +91,9 @@ public class LoginActivity extends Activity {
             }
         });
     }
-//    @Override
-//    protected void onDestroy() {
-//        super.onDestroy();
-//        userDAO.close();
-//    }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        userDAO.close();
+    }
 }

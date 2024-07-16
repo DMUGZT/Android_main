@@ -8,11 +8,22 @@
     android:gravity="center"
     tools:context=".RegisterActivity">
 
+    <TextView
+        android:id="@+id/welcomeTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="新用户注册"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:gravity="center"
+        tools:ignore="HardcodedText" />
+
     <ImageView
         android:id="@+id/logoImageView"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:src="@drawable/ic_launcher_foreground"
+        android:src="@drawable/ic_register_icon"
         android:layout_gravity="center"
         android:contentDescription="Logo" />
 
@@ -20,41 +31,97 @@
         android:id="@+id/usernameEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Username"
+        android:hint="账号"
         android:inputType="text"
         android:layout_marginTop="20dp" />
 
-    <EditText
-        android:id="@+id/passwordEditText"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Password"
-        android:inputType="textPassword"
-        android:layout_marginTop="10dp" />
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
 
-    <EditText
-        android:id="@+id/confirmPasswordEditText"
+        <EditText
+            android:id="@+id/passwordEditText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="密码"
+            android:inputType="textPassword"
+            android:layout_weight="1"
+            android:paddingEnd="10dp" />
+
+        <ImageButton
+            android:id="@+id/togglePasswordVisibilityButton1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="Toggle Password Visibility"
+            android:scaleType="center"
+            android:src="@drawable/ic_visibility_off"
+            android:layout_gravity="center_vertical" />
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Confirm Password"
-        android:inputType="textPassword"
-        android:layout_marginTop="100dp" />
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <EditText
+            android:id="@+id/confirmPasswordEditText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="再次输入密码"
+            android:inputType="textPassword"
+            android:layout_weight="1"
+            android:paddingEnd="10dp" />
+
+        <ImageButton
+            android:id="@+id/togglePasswordVisibilityButton2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="Toggle Password Visibility"
+            android:scaleType="center"
+            android:src="@drawable/ic_visibility_off"
+            android:layout_gravity="center_vertical" />
+    </LinearLayout>
 
     <Button
         android:id="@+id/registerButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Register"
+        android:text="注册"
+        android:backgroundTint="@color/primary"
+        android:textColor="@color/black"
         android:layout_marginTop="20dp" />
 
-    <TextView
-        android:id="@+id/loginTextView"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Already have an account? Login"
         android:layout_marginTop="20dp"
-        android:layout_gravity="center"
-        android:clickable="true"
-        android:focusable="true"
-        tools:ignore="HardcodedText" />
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:focusable="true"
+            android:text="是否已经注册过了?"
+            android:layout_marginRight="25px"
+            android:textColor="@color/primary"
+            tools:ignore="HardcodedText" />
+
+        <TextView
+            android:id="@+id/loginTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=" 前往登录 "
+            android:textColor="@color/colorPrimaryDark"
+            tools:ignore="HardcodedText" />
+    </LinearLayout>
+
 </LinearLayout>

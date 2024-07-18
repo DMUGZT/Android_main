@@ -37,6 +37,11 @@
             android:exported="true">
 
         </activity>
+        <activity
+            android:name=".RecordActivity"
+            android:exported="true">
+
+        </activity>
 
     </application>
 

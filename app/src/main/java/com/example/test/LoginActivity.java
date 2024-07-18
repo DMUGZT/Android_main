@@ -13,10 +13,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.test.database.UserDAO;
 
-public class LoginActivity extends Activity {
+public class LoginActivity extends AppCompatActivity {
     private ImageButton togglePasswordVisibilityButton;
     private boolean isPasswordVisible = false;
     private EditText usernameEditText, passwordEditText;

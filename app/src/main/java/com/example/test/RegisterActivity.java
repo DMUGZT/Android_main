@@ -12,12 +12,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.test.database.UserDAO;
 
 import java.util.regex.Pattern;
 
-public class RegisterActivity extends Activity {
+public class RegisterActivity extends AppCompatActivity {
     // 定义视图组件
     private EditText usernameEditText, passwordEditText, confirmPasswordEditText;
     private Button registerButton;

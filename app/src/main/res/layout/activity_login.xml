@@ -23,9 +23,10 @@
         android:id="@+id/logoImageView"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:src="@drawable/ic_logo"
         android:layout_marginTop="20dp"
-        android:contentDescription="Logo" />
+        android:contentDescription="Logo"
+        android:src="@drawable/ic_logo" />
+
     <EditText
         android:id="@+id/usernameEditText"
         android:layout_width="match_parent"

@@ -81,4 +81,21 @@ public class UserDAO {
         database.update(DatabaseHelper.TABLE_USER, values, DatabaseHelper.COLUMN_USER_ID + " = ?", new String[]{userId});
     }
 
+    public String getUserIdByUsername(String username) {
+        Cursor cursor = database.query(
+                DatabaseHelper.TABLE_USER,
+                new String[]{DatabaseHelper.COLUMN_USER_ID},
+                DatabaseHelper.COLUMN_USERNAME + " = ?",
+                new String[]{username},
+                null, null, null);
+
+        if (cursor != null && cursor.moveToFirst()) {
+            String userId = cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_USER_ID));
+            cursor.close();
+            return userId;
+        } else {
+            return null;
+        }
+    }
+
 }

@@ -101,7 +101,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="16dp"
                     android:layout_weight="1"
-                    android:text="36566354"
                     android:textSize="16sp" />
             </LinearLayout>
 
@@ -126,7 +125,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="16dp"
                     android:layout_weight="1"
-                    android:text="zaki"
                     android:textSize="16sp" />
             </LinearLayout>
 
@@ -154,7 +152,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="16dp"
                     android:layout_weight="1"
-                    android:text="康"
                     android:textSize="16sp" />
 
                 <ImageView
@@ -187,7 +184,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="16dp"
                     android:layout_weight="1"
-                    android:text="男"
+                    android:text="保密"
                     android:textSize="16sp" />
 
                 <ImageView

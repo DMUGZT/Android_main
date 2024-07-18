@@ -15,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.test.database.DatabaseHelper;
 import com.example.test.database.UserDAO;
+import com.example.test.utils.UserSessionManager;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.button.MaterialButton;
 
@@ -24,6 +25,7 @@ public class UserDetailsActivity extends AppCompatActivity {
     private TextView accountIdTextView, username, nickname, gender, phone, email;
     private ImageView profileImage;
     private UserDAO userDAO;
+    private UserSessionManager sessionManager;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -41,6 +43,7 @@ public class UserDetailsActivity extends AppCompatActivity {
         profileImage = findViewById(R.id.profile_image);
 
         userDAO = new UserDAO(this);
+        sessionManager = new UserSessionManager(this);
 
         MaterialButton saveButton = findViewById(R.id.save_button);
         saveButton.setOnClickListener(new View.OnClickListener() {
@@ -114,7 +117,7 @@ public class UserDetailsActivity extends AppCompatActivity {
 
     private void loadUserInfo() {
         // 获取用户信息，例如用户ID为1
-        String userId = "1"; // 你需要根据实际情况获取用户ID
+        String userId = sessionManager.getUserId(); // 你需要根据实际情况获取用户ID
 
         Cursor cursor = userDAO.getUserInfo(userId);
         if (cursor != null && cursor.moveToFirst()) {

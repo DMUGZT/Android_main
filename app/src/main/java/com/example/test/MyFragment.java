@@ -19,6 +19,7 @@ import androidx.fragment.app.Fragment;
 
 import com.example.test.database.DatabaseHelper;
 import com.example.test.database.UserDAO;
+import com.example.test.utils.UserSessionManager;
 import com.google.android.material.textview.MaterialTextView;
 
 public class MyFragment extends Fragment {
@@ -32,6 +33,7 @@ public class MyFragment extends Fragment {
     private UserDAO userDAO;
     private ImageView profileImage;
     private TextView nickname;
+    private UserSessionManager sessionManager;
 
     public MyFragment() {
         // Required empty public constructor
@@ -70,6 +72,7 @@ public class MyFragment extends Fragment {
         MaterialTextView help = view.findViewById(R.id.help);
         MaterialTextView about = view.findViewById(R.id.about);
         Button logoutButton = view.findViewById(R.id.logout_button);
+        sessionManager = new UserSessionManager(getContext());
 
         // 处理点击事件
         userProfileSection.setOnClickListener(new View.OnClickListener() {
@@ -121,7 +124,8 @@ public class MyFragment extends Fragment {
 
     private void loadUserInfo() {
         // 获取用户信息，例如用户ID为1
-        String userId = "1"; // 你需要根据实际情况获取用户ID
+//        sessionManager.getUserId();
+        String userId =  sessionManager.getUserId();; // 根据实际情况获取用户ID
 
         Cursor cursor = userDAO.getUserInfo(userId);
         if (cursor != null && cursor.moveToFirst()) {

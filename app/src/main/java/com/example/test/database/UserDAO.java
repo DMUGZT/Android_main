@@ -59,4 +59,26 @@ public class UserDAO {
 
         database.update(DatabaseHelper.TABLE_USER, values, DatabaseHelper.COLUMN_USERNAME + " = ?", new String[]{username});
     }
+
+    public Cursor getUserInfo(String userId) {
+        return database.query(
+                DatabaseHelper.TABLE_USER,
+                null,
+                DatabaseHelper.COLUMN_USER_ID + " = ?",
+                new String[]{userId},
+                null, null, null);
+    }
+
+
+    public void updateUserProfile(String userId, String nickname, String profileImage, String gender, String phone, String email) {
+        ContentValues values = new ContentValues();
+        values.put(DatabaseHelper.COLUMN_NICKNAME, nickname);
+        values.put(DatabaseHelper.COLUMN_PROFILE_IMAGE, profileImage);
+        values.put(DatabaseHelper.COLUMN_GENDER, gender);
+        values.put(DatabaseHelper.COLUMN_PHONE, phone);
+        values.put(DatabaseHelper.COLUMN_EMAIL, email);
+
+        database.update(DatabaseHelper.TABLE_USER, values, DatabaseHelper.COLUMN_USER_ID + " = ?", new String[]{userId});
+    }
+
 }

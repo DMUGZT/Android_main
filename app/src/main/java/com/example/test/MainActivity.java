@@ -34,6 +34,9 @@ public class MainActivity extends AppCompatActivity {
         cartText = findViewById(R.id.cart_text);
         myText = findViewById(R.id.my_text);
 
+        detailsIcon.setColorFilter(getResources().getColor(R.color.selected_color)); // 更改为选中的颜色
+        detailsText.setTextColor(getResources().getColor(R.color.selected_color));
+
         // 添加碎片
         getSupportFragmentManager().beginTransaction().add(R.id.layout, billsFragment).commit();
         getSupportFragmentManager().beginTransaction().add(R.id.layout, detailsFragment).commit();

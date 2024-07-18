@@ -14,7 +14,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String COLUMN_USER_ID = "_id";
     public static final String COLUMN_USERNAME = "username";
     public static final String COLUMN_PASSWORD = "password";
-
+    public static final String TABLE_TRANSACTION = "transaction";
+    public static final String COLUMN_TRANSACTION_DATE = "date";
+    public static final String COLUMN_TRANSACTION_DESCRIPTION = "description";
+    public static final String COLUMN_TRANSACTION_AMOUNT = "amount";
     // 其他表可以在这里定义
     // public static final String TABLE_OTHER = "other";
     // public static final String COLUMN_OTHER_ID = "_id";

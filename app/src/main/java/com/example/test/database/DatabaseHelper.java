@@ -27,8 +27,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String COLUMN_TRANSACTION_date = "date";
     public static final String COLUMN_TRANSACTION_description = "description";
     public static final String COLUMN_TRANSACTION_amount = "amount";
-
-
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
@@ -64,7 +62,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 COLUMN_TRANSACTION_id + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 COLUMN_TRANSACTION_date + " DATE, " +
                 COLUMN_TRANSACTION_description + " TEXT, " +
-                COLUMN_TRANSACTION_amount + " FLOAT, " +
+                COLUMN_TRANSACTION_amount + " FLOAT" +
                 ")";
         db.execSQL(createUserTable);
         db.execSQL(createTransactionTable);
@@ -92,5 +90,4 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_USER);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_TRANSACTION);
     }
-
 }

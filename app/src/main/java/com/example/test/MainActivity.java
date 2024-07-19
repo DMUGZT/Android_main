@@ -1,5 +1,6 @@
 package com.example.test;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -32,6 +33,9 @@ public class MainActivity extends AppCompatActivity {
         billsText = findViewById(R.id.bills_text);
         cartText = findViewById(R.id.cart_text);
         myText = findViewById(R.id.my_text);
+
+        detailsIcon.setColorFilter(getResources().getColor(R.color.selected_color)); // 更改为选中的颜色
+        detailsText.setTextColor(getResources().getColor(R.color.selected_color));
 
         // 添加碎片
         getSupportFragmentManager().beginTransaction().add(R.id.layout, billsFragment).commit();
@@ -75,6 +79,13 @@ public class MainActivity extends AppCompatActivity {
                 myIcon.setColorFilter(getResources().getColor(R.color.selected_color)); // 更改为选中的颜色
                 myText.setTextColor(getResources().getColor(R.color.selected_color)); // 更改为选中的颜色
                 getSupportFragmentManager().beginTransaction().hide(cartFragment).hide(billsFragment).show(myFragment).hide(detailsFragment).commit();
+            }
+        });
+        findViewById(R.id.record_section).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, RecordActivity.class);
+                startActivity(intent);
             }
         });
     }

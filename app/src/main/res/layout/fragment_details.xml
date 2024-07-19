@@ -3,38 +3,45 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-
-    <View
+    <!-- 顶部栏部分 -->
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
-        android:layout_height="24dp"
-        android:background="@color/pink" />
-    <!-- 顶部标题部分 -->
+        android:layout_height="wrap_content"
+        android:theme="@style/ThemeOverlay.MaterialComponents.ActionBar"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/topAppBar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/pink"
+            app:layout_scrollFlags="scroll|enterAlways">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="收支明细"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:textColor="@android:color/black"
+                android:gravity="center" />
+
+        </com.google.android.material.appbar.MaterialToolbar>
+    </com.google.android.material.appbar.AppBarLayout>
+    <!-- 标题部分 -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="16dp">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="个人财务系统"
-            android:textSize="20sp"
-            android:textStyle="bold"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="资产收支明细"
-            android:textSize="16sp"
-            />
-
         <!-- 日期和收入支出信息 -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginTop="16dp">
+            android:layout_marginTop="10dp">
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -45,12 +52,14 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="2024年"
+                    android:id="@+id/years"
+                    android:text="1970年"
                     android:textSize="16sp"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="7月"
+                    android:id="@+id/months"
+                    android:text="1月"
                     android:textSize="24sp"
                     android:textStyle="bold"/>
             </LinearLayout>
@@ -70,7 +79,8 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="777777.00"
+                    android:id="@+id/income_month"
+                    android:text="100.00"
                     android:textSize="24sp"
                     android:textStyle="bold"/>
             </LinearLayout>
@@ -90,7 +100,8 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="5665.00"
+                    android:id="@+id/payment"
+                    android:text="99.00"
                     android:textSize="24sp"
                     android:textStyle="bold"/>
             </LinearLayout>

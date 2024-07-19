@@ -95,53 +95,65 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 COLUMN_EMAIL + " TEXT, " +
                 COLUMN_PERMISSION + " INTEGER" +
                 ")";
-
+        db.execSQL(createUserTable);
         String createPreIncome = "CREATE TABLE " + TABLE_PREDICTED_INCOME + " (" +
                 COLUMN_PREDICTED_INCOME_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 COLUMN_PREDICTED_INCOME_PROJECT + " TEXT(20), " +
-                COLUMN_PREDICTED_INCOME_AMOUNT + "INTEGER " +
+                COLUMN_PREDICTED_INCOME_AMOUNT + "INTEGER, " +
                 "FOREIGN KEY (" + COLUMN_USER_ID + ") REFERENCES " +
                 TABLE_USER + "(" + COLUMN_USER_ID + ")" +
                 ")";
+        db.execSQL(createPreIncome);
         String createPreExpense = "CREATE TABLE " + TABLE_PREDICTED_EXPENSE + " (" +
                 COLUMN_PREDICTED_EXPENSE_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                COLUMN_PREDICTED_EXPENSE_PROJECT + " STRING, " +
-                COLUMN_PREDICTED_EXPENSE_AMOUNT + " TEXT " +
+                COLUMN_PREDICTED_EXPENSE_PROJECT + " TEXT(20), " +
+                COLUMN_PREDICTED_EXPENSE_AMOUNT + " INTEGER, " +
                 "FOREIGN KEY (" + COLUMN_USER_ID + ") REFERENCES " +
                 TABLE_USER + "(" + COLUMN_USER_ID + ")" +
                 ")";
+        db.execSQL(createPreExpense);
         String createIncome = "CREATE TABLE " + TABLE_INCOME + " (" +
                 COLUMN_INCOME_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                COLUMN_INCOME_CATEGORY + " STRING, " +
-                COLUMN_INCOME_DATE + " TEXT " +
-                COLUMN_INCOME_AMOUNT + " STRING, " +
-                COLUMN_INCOME_DESCRIPTION + " STRING, " +
-                COLUMN_INCOME_CASH_TYPE + " STRING, " +
+                COLUMN_INCOME_CATEGORY + " TEXT(10), " +
+                COLUMN_INCOME_DATE + " DATE, " +
+                COLUMN_INCOME_AMOUNT + " INTEGER, " +
+                COLUMN_INCOME_DESCRIPTION + " TEXT(20), " +
+                COLUMN_INCOME_CASH_TYPE + " INTEGER, " +
+                "FOREIGN KEY (" + COLUMN_USER_ID + ") REFERENCES " +
+                TABLE_USER + "(" + COLUMN_USER_ID + ")" +
                 ")";
+        db.execSQL(createIncome);
         String createExpense = "CREATE TABLE " + TABLE_EXPENSE + " (" +
                 COLUMN_EXPENSE_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                COLUMN_EXPENSE_CATEGORY + " STRING, " +
-                COLUMN_EXPENSE_CATEGORY + " TEXT " +
-                COLUMN_EXPENSE_AMOUNT + " STRING, " +
-                COLUMN_EXPENSE_AMOUNT + " STRING, " +
-                COLUMN_EXPENSE_CASH_TYPE + " STRING, " +
+                COLUMN_EXPENSE_CATEGORY + " TEXT(10), " +
+                COLUMN_EXPENSE_DATE + " DATE, " +
+                COLUMN_EXPENSE_AMOUNT + " INTEGER, " +
+                COLUMN_EXPENSE_DESCRIPTION + " TEXT(20), " +
+                COLUMN_EXPENSE_CASH_TYPE + " INTEGER, " +
+                "FOREIGN KEY (" + COLUMN_USER_ID + ") REFERENCES " +
+                TABLE_USER + "(" + COLUMN_USER_ID + ")" +
                 ")";
+        db.execSQL(createExpense);
         String createMonthSummary = "CREATE TABLE " + TABLE_MONTHLY_SUMMARY + " (" +
                 COLUMN_MONTHLY_SUMMARY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                COLUMN_MONTHLY_SUMMARY_DATE + " STRING, " +
-                COLUMN_MONTHLY_INCOME_AMOUNT + " TEXT " +
-                COLUMN_MONTHLY_EXPENSE_AMOUNT + " STRING, " +
-                COLUMN_MONTHLY_SAVINGS + " STRING, " +
+                COLUMN_MONTHLY_SUMMARY_DATE + " DATE, " +
+                COLUMN_MONTHLY_INCOME_AMOUNT + " INTEGER, " +
+                COLUMN_MONTHLY_EXPENSE_AMOUNT + " INTEGER, " +
+                COLUMN_MONTHLY_SAVINGS + " INTEGER, " +
+                "FOREIGN KEY (" + COLUMN_USER_ID + ") REFERENCES " +
+                TABLE_USER + "(" + COLUMN_USER_ID + ")" +
                 ")";
+        db.execSQL(createMonthSummary);
         String createYearSummary = "CREATE TABLE " + TABLE_YEARLY_SUMMARY + " (" +
                 COLUMN_YEARLY_SUMMARY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                COLUMN_YEARLY_SUMMARY_DATE + " STRING, " +
-                COLUMN_YEARLY_INCOME_AMOUNT + " TEXT " +
-                COLUMN_YEARLY_EXPENSE_AMOUNT + " STRING, " +
-                COLUMN_YEARLY_SAVINGS + " STRING, " +
+                COLUMN_YEARLY_SUMMARY_DATE + " DATE, " +
+                COLUMN_YEARLY_INCOME_AMOUNT + " INTEGER " +
+                COLUMN_YEARLY_EXPENSE_AMOUNT + " INTEGER, " +
+                COLUMN_YEARLY_SAVINGS + " INTEGER, " +
+                "FOREIGN KEY (" + COLUMN_USER_ID + ") REFERENCES " +
+                TABLE_USER + "(" + COLUMN_USER_ID + ")" +
                 ")";
-        db.execSQL(createUserTable);
-        db.execSQL(createIncome);
+        db.execSQL(createYearSummary);
     }
 
     private void upgradeToVersion2(SQLiteDatabase db) {
@@ -158,6 +170,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private void dropTables(SQLiteDatabase db) {
         // 删除用户表
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_USER);
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_TRANSACTION);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_EXPENSE);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_INCOME);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_PREDICTED_EXPENSE);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_PREDICTED_INCOME);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_MONTHLY_SUMMARY);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_YEARLY_SUMMARY);
     }
 }

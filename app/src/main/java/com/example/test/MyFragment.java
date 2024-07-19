@@ -19,6 +19,7 @@ import androidx.fragment.app.Fragment;
 
 import com.example.test.database.DatabaseHelper;
 import com.example.test.database.UserDAO;
+import com.example.test.utils.ImageUtils;
 import com.example.test.utils.UserSessionManager;
 import com.google.android.material.textview.MaterialTextView;
 
@@ -130,7 +131,7 @@ public class MyFragment extends Fragment {
         Cursor cursor = userDAO.getUserInfo(userId);
         if (cursor != null && cursor.moveToFirst()) {
             String nickname = cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_NICKNAME));
-            String profileImagePath = cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_PROFILE_IMAGE));
+            String profileImageBase64 = cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_PROFILE_IMAGE));
             String usernameText = cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_USERNAME));
 
             if (nickname != null && !nickname.isEmpty()) {
@@ -139,8 +140,8 @@ public class MyFragment extends Fragment {
                 this.nickname.setText(usernameText);
             }
 
-            if (profileImagePath != null && !profileImagePath.isEmpty()) {
-                Bitmap bitmap = BitmapFactory.decodeFile(profileImagePath);
+            if (profileImageBase64 != null && !profileImageBase64.isEmpty()) {
+                Bitmap bitmap = ImageUtils.base64ToBitmap(profileImageBase64);
                 profileImage.setImageBitmap(bitmap);
             }
 

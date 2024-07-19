@@ -20,13 +20,51 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String COLUMN_PHONE = "phone";
     public static final String COLUMN_EMAIL = "email";
     public static final String COLUMN_PERMISSION = "permission";
-    // 交易明细表
-    // transaction(date,description,amount)
-    public static final String TABLE_TRANSACTION = "transactions";
-    public static final String COLUMN_TRANSACTION_id = "trans_id";
-    public static final String COLUMN_TRANSACTION_date = "date";
-    public static final String COLUMN_TRANSACTION_description = "description";
-    public static final String COLUMN_TRANSACTION_amount = "amount";
+    // 预测收入表
+    public static final String TABLE_PREDICTED_INCOME = "predicted_income";
+    public static final String COLUMN_PREDICTED_INCOME_ID = "_id";
+    public static final String COLUMN_PREDICTED_INCOME_PROJECT = "project";
+    public static final String COLUMN_PREDICTED_INCOME_AMOUNT = "amount";
+
+    // 预测支出表
+    public static final String TABLE_PREDICTED_EXPENSE = "predicted_expense";
+    public static final String COLUMN_PREDICTED_EXPENSE_ID = "_id";
+    public static final String COLUMN_PREDICTED_EXPENSE_PROJECT = "project";
+    public static final String COLUMN_PREDICTED_EXPENSE_AMOUNT = "amount";
+
+    // 收入表
+    public static final String TABLE_INCOME = "income";
+    public static final String COLUMN_INCOME_ID = "_id";
+    public static final String COLUMN_INCOME_CATEGORY = "category";
+    public static final String COLUMN_INCOME_DATE = "date";
+    public static final String COLUMN_INCOME_AMOUNT = "amount";
+    public static final String COLUMN_INCOME_DESCRIPTION = "description";
+    public static final String COLUMN_INCOME_CASH_TYPE = "cash_type";
+
+    // 支出表
+    public static final String TABLE_EXPENSE = "expense";
+    public static final String COLUMN_EXPENSE_ID = "_id";
+    public static final String COLUMN_EXPENSE_CATEGORY = "category";
+    public static final String COLUMN_EXPENSE_DATE = "date";
+    public static final String COLUMN_EXPENSE_AMOUNT = "amount";
+    public static final String COLUMN_EXPENSE_DESCRIPTION = "description";
+    public static final String COLUMN_EXPENSE_CASH_TYPE = "cash_type";
+
+    // 月度总结表
+    public static final String TABLE_MONTHLY_SUMMARY = "monthly_summary";
+    public static final String COLUMN_MONTHLY_SUMMARY_ID = "_id";
+    public static final String COLUMN_MONTHLY_SUMMARY_DATE = "date";
+    public static final String COLUMN_MONTHLY_INCOME_AMOUNT = "income_amount";
+    public static final String COLUMN_MONTHLY_EXPENSE_AMOUNT = "expense_amount";
+    public static final String COLUMN_MONTHLY_SAVINGS = "savings";
+
+    // 年度总结表
+    public static final String TABLE_YEARLY_SUMMARY = "yearly_summary";
+    public static final String COLUMN_YEARLY_SUMMARY_ID = "_id";
+    public static final String COLUMN_YEARLY_SUMMARY_DATE = "date";
+    public static final String COLUMN_YEARLY_INCOME_AMOUNT = "income_amount";
+    public static final String COLUMN_YEARLY_EXPENSE_AMOUNT = "expense_amount";
+    public static final String COLUMN_YEARLY_SAVINGS = "savings";
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
@@ -57,15 +95,53 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 COLUMN_EMAIL + " TEXT, " +
                 COLUMN_PERMISSION + " INTEGER" +
                 ")";
-        // 创建交易表
-        String createTransactionTable = "CREATE TABLE " + TABLE_TRANSACTION + " (" +
-                COLUMN_TRANSACTION_id + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                COLUMN_TRANSACTION_date + " DATE, " +
-                COLUMN_TRANSACTION_description + " TEXT, " +
-                COLUMN_TRANSACTION_amount + " FLOAT" +
+
+        String createPreIncome = "CREATE TABLE " + TABLE_PREDICTED_INCOME + " (" +
+                COLUMN_PREDICTED_INCOME_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                COLUMN_PREDICTED_INCOME_PROJECT + " TEXT(20), " +
+                COLUMN_PREDICTED_INCOME_AMOUNT + "INTEGER " +
+                "FOREIGN KEY (" + COLUMN_USER_ID + ") REFERENCES " +
+                TABLE_USER + "(" + COLUMN_USER_ID + ")" +
+                ")";
+        String createPreExpense = "CREATE TABLE " + TABLE_PREDICTED_EXPENSE + " (" +
+                COLUMN_PREDICTED_EXPENSE_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                COLUMN_PREDICTED_EXPENSE_PROJECT + " STRING, " +
+                COLUMN_PREDICTED_EXPENSE_AMOUNT + " TEXT " +
+                "FOREIGN KEY (" + COLUMN_USER_ID + ") REFERENCES " +
+                TABLE_USER + "(" + COLUMN_USER_ID + ")" +
+                ")";
+        String createIncome = "CREATE TABLE " + TABLE_INCOME + " (" +
+                COLUMN_INCOME_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                COLUMN_INCOME_CATEGORY + " STRING, " +
+                COLUMN_INCOME_DATE + " TEXT " +
+                COLUMN_INCOME_AMOUNT + " STRING, " +
+                COLUMN_INCOME_DESCRIPTION + " STRING, " +
+                COLUMN_INCOME_CASH_TYPE + " STRING, " +
+                ")";
+        String createExpense = "CREATE TABLE " + TABLE_EXPENSE + " (" +
+                COLUMN_EXPENSE_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                COLUMN_EXPENSE_CATEGORY + " STRING, " +
+                COLUMN_EXPENSE_CATEGORY + " TEXT " +
+                COLUMN_EXPENSE_AMOUNT + " STRING, " +
+                COLUMN_EXPENSE_AMOUNT + " STRING, " +
+                COLUMN_EXPENSE_CASH_TYPE + " STRING, " +
+                ")";
+        String createMonthSummary = "CREATE TABLE " + TABLE_MONTHLY_SUMMARY + " (" +
+                COLUMN_MONTHLY_SUMMARY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                COLUMN_MONTHLY_SUMMARY_DATE + " STRING, " +
+                COLUMN_MONTHLY_INCOME_AMOUNT + " TEXT " +
+                COLUMN_MONTHLY_EXPENSE_AMOUNT + " STRING, " +
+                COLUMN_MONTHLY_SAVINGS + " STRING, " +
+                ")";
+        String createYearSummary = "CREATE TABLE " + TABLE_YEARLY_SUMMARY + " (" +
+                COLUMN_YEARLY_SUMMARY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                COLUMN_YEARLY_SUMMARY_DATE + " STRING, " +
+                COLUMN_YEARLY_INCOME_AMOUNT + " TEXT " +
+                COLUMN_YEARLY_EXPENSE_AMOUNT + " STRING, " +
+                COLUMN_YEARLY_SAVINGS + " STRING, " +
                 ")";
         db.execSQL(createUserTable);
-        db.execSQL(createTransactionTable);
+        db.execSQL(createIncome);
     }
 
     private void upgradeToVersion2(SQLiteDatabase db) {
@@ -78,12 +154,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("ALTER TABLE " + TABLE_USER + " ADD COLUMN " + COLUMN_PERMISSION + " INTEGER");
     }
 
-    private void upgradeToTableTransactions(SQLiteDatabase db) {
-        // 添加新列到现有的交易明细表
-        db.execSQL("ALTER TABLE " + TABLE_TRANSACTION + " ADD COLUMN " + COLUMN_TRANSACTION_date + " DATE");
-        db.execSQL("ALTER TABLE " + TABLE_TRANSACTION + " ADD COLUMN " + COLUMN_TRANSACTION_description + " TEXT");
-        db.execSQL("ALTER TABLE " + TABLE_TRANSACTION + " ADD COLUMN " + COLUMN_TRANSACTION_amount + " FLOAT");
-    }
 
     private void dropTables(SQLiteDatabase db) {
         // 删除用户表

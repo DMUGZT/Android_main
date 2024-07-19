@@ -147,7 +147,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String createYearSummary = "CREATE TABLE " + TABLE_YEARLY_SUMMARY + " (" +
                 COLUMN_YEARLY_SUMMARY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 COLUMN_YEARLY_SUMMARY_DATE + " DATE, " +
-                COLUMN_YEARLY_INCOME_AMOUNT + " INTEGER " +
+                COLUMN_YEARLY_INCOME_AMOUNT + " INTEGER, " +
                 COLUMN_YEARLY_EXPENSE_AMOUNT + " INTEGER, " +
                 COLUMN_YEARLY_SAVINGS + " INTEGER, " +
                 "FOREIGN KEY (" + COLUMN_USER_ID + ") REFERENCES " +

@@ -48,6 +48,12 @@
             android:exported="true">
 
         </activity>
+
+        <activity
+            android:name=".MyAccountActivity"
+            android:exported="true">
+
+        </activity>
     </application>
 
 </manifest>

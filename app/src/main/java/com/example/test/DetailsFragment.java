@@ -1,63 +1,62 @@
 package com.example.test;
 
+import android.annotation.SuppressLint;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link DetailsFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import com.example.test.database.DatabaseHelper;
+
+import java.util.ArrayList;
+
+
 public class DetailsFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    public DetailsFragment() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment ContactFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static DetailsFragment newInstance(String param1, String param2) {
-        DetailsFragment fragment = new DetailsFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
+    private RecyclerView recyclerView;
+    private Detail_TransactionAdapter adapter;
+    private ArrayList<Detail_Transaction> transactionList;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_details, container, false);
+        View view = inflater.inflate(R.layout.fragment_details, container, false);
+
+        // Initialize RecyclerView
+        recyclerView = view.findViewById(R.id.recyclerView);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+        // Initialize DatabaseHelper and load data
+        DatabaseHelper dbHelper = new DatabaseHelper(getActivity());
+        Test_Database test = new Test_Database(dbHelper);
+        test.insertTestData();
+        transactionList = new ArrayList<>();
+        Cursor cursor = dbHelper.getAllTransactions();
+
+        if (cursor.moveToFirst()) {
+            do {
+                @SuppressLint("Range") int id = cursor.getInt(cursor.getColumnIndex("_id"));
+                @SuppressLint("Range") String category = cursor.getString(cursor.getColumnIndex("category"));
+                @SuppressLint("Range") String date = cursor.getString(cursor.getColumnIndex("date"));
+                @SuppressLint("Range") double amount = cursor.getDouble(cursor.getColumnIndex("amount"));
+                @SuppressLint("Range") String description = cursor.getString(cursor.getColumnIndex("description"));
+                @SuppressLint("Range") String cashType = cursor.getString(cursor.getColumnIndex("cash_type"));
+
+                Detail_Transaction transaction = new Detail_Transaction(id, category, date, amount, description, cashType);
+                transactionList.add(transaction);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+
+        // Set up adapter
+        adapter = new Detail_TransactionAdapter(transactionList);
+        recyclerView.setAdapter(adapter);
+
+        return view;
     }
 }

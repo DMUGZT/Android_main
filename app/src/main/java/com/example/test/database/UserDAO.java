@@ -61,6 +61,9 @@ public class UserDAO {
     }
 
     public Cursor getUserInfo(String userId) {
+        if (userId == null) {
+            throw new IllegalArgumentException("userId cannot be null ! Check userId");
+        }
         return database.query(
                 DatabaseHelper.TABLE_USER,
                 null,

@@ -73,15 +73,10 @@ public class MyAccountActivity extends AppCompatActivity {
 
     //初始化数据渲染
     private void loadAccounts() {
+        String userID = sessionManager.getUserId();
         accountList.clear();
-        Cursor cursor = accountDAO.getAllAccounts();
-        while (cursor.moveToNext()) {
-            int id = cursor.getInt(cursor.getColumnIndex(DatabaseHelper.COLUMN_ACCOUNT_ID));
-            String type = cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_ACCOUNT_TYPE));
-            double balance = cursor.getDouble(cursor.getColumnIndex(DatabaseHelper.COLUMN_ACCOUNT_BALANCE));
-            accountList.add(new Account(id, type, balance));
-        }
-        cursor.close();
+        List<Account> accounts = accountDAO.getUserAccountList(userID);
+        accountList.addAll(accounts);
         accountAdapter.notifyDataSetChanged();
     }
 
@@ -98,7 +93,6 @@ public class MyAccountActivity extends AppCompatActivity {
             String accountType = input.getText().toString();
             if (!accountType.isEmpty()) {
                 accountDAO.addAccount(accountType,sessionManager.getUserId());
-                AppConstants.addAccountType(accountType);
                 loadAccounts();
             } else {
                 Toast.makeText(MyAccountActivity.this, "账户类型不能为空", Toast.LENGTH_SHORT).show();
@@ -143,7 +137,6 @@ public class MyAccountActivity extends AppCompatActivity {
 
         builder.setPositiveButton("删除", (dialog, which) -> {
             accountDAO.deleteAccount(account.getId());
-            AppConstants.removeAccountType(account.getType());
             loadAccounts();
         });
 

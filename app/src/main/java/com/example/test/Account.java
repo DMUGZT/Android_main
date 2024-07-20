@@ -5,10 +5,12 @@ public class Account {
     private String type;
     private double balance;
 
+
     public Account(int id, String type, double balance) {
         this.id = id;
         this.type = type;
         this.balance = balance;
+//        this.userID = userID;
     }
 
     public int getId() {
@@ -22,4 +24,8 @@ public class Account {
     public double getBalance() {
         return balance;
     }
+
+//    public String getUserID() {
+//        return userID;
+//    }
 }

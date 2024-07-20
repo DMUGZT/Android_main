@@ -11,7 +11,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "app.db";
-    private static final int DATABASE_VERSION = 4; // 增加数据库版本
+    private static final int DATABASE_VERSION = 6; // 增加数据库版本
 
     // 用户表
     public static final String TABLE_USER = "user";
@@ -102,8 +102,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             upgradeToVersion3(db);
         }
 
-        if (oldVersion < 4) {
-            upgradeToVersion4(db);
+        if (oldVersion < 6) {
+            upgradeToVersion6(db);
         }
 
         // 如果有更多的升级可以添加更多的条件
@@ -135,7 +135,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String createPreIncome = "CREATE TABLE IF NOT EXISTS " + TABLE_PREDICTED_INCOME + " (" +
                 COLUMN_PREDICTED_INCOME_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 COLUMN_PREDICTED_INCOME_PROJECT + " TEXT(20), " +
-                COLUMN_PREDICTED_INCOME_AMOUNT + "INTEGER, " +
+                COLUMN_PREDICTED_INCOME_AMOUNT + " INTEGER, " +
                 "FOREIGN KEY (" + COLUMN_USER_ID + ") REFERENCES " +
                 TABLE_USER + "(" + COLUMN_USER_ID + ")" +
                 ")";
@@ -210,8 +210,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         // 创建新表
         createTables(db);
     }
-    private void upgradeToVersion4(SQLiteDatabase db) {
+    private void upgradeToVersion6(SQLiteDatabase db) {
         // 创建新表
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_EXPENSE);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_INCOME);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_PREDICTED_EXPENSE);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_PREDICTED_INCOME);
         createTables(db);
 
     }

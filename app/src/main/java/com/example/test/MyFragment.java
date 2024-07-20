@@ -97,6 +97,8 @@ public class MyFragment extends Fragment {
             }
         });
 
+        
+
         help.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

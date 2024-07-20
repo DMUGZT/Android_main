@@ -156,8 +156,8 @@ public class MyFragment extends Fragment {
 
     public void onMyAccountClick(View view) {
         // 跳转到我的账户页面
-        // Intent intent = new Intent(getActivity(), MyAccountActivity.class);
-        // startActivity(intent);
+         Intent intent = new Intent(getActivity(), MyAccountActivity.class);
+         startActivity(intent);
     }
 
     public void onSettingsClick(View view) {

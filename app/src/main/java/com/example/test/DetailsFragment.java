@@ -33,8 +33,8 @@ public class DetailsFragment extends Fragment {
 
         // Initialize DatabaseHelper and load data
         DatabaseHelper dbHelper = new DatabaseHelper(getActivity());
-        Test_Database test = new Test_Database(dbHelper);
-        test.insertTestData();
+//        Test_Database test = new Test_Database(dbHelper);
+//        test.insertTestData();
         transactionList = new ArrayList<>();
         Cursor cursor = dbHelper.getAllTransactions();
 

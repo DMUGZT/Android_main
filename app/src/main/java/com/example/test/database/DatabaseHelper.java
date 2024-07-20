@@ -1,6 +1,7 @@
 package com.example.test.database;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
@@ -79,12 +80,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         if (oldVersion < 2) {
             upgradeToVersion2(db);
         }
+        if (oldVersion < 3) {
+            upgradeToVersion3(db);
+        }
         // 如果有更多的升级可以添加更多的条件
     }
 
     private void createTables(SQLiteDatabase db) {
         // 创建用户表
-        String createUserTable = "CREATE TABLE " + TABLE_USER + " (" +
+        String createUserTable = "CREATE TABLE IF NOT EXISTS " + TABLE_USER + " (" +
                 COLUMN_USER_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 COLUMN_USERNAME + " TEXT, " +
                 COLUMN_PASSWORD + " TEXT, " +
@@ -96,7 +100,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 COLUMN_PERMISSION + " INTEGER" +
                 ")";
         db.execSQL(createUserTable);
-        String createPreIncome = "CREATE TABLE " + TABLE_PREDICTED_INCOME + " (" +
+        String createPreIncome = "CREATE TABLE IF NOT EXISTS " + TABLE_PREDICTED_INCOME + " (" +
                 COLUMN_PREDICTED_INCOME_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 COLUMN_PREDICTED_INCOME_PROJECT + " TEXT(20), " +
                 COLUMN_PREDICTED_INCOME_AMOUNT + "INTEGER, " +
@@ -104,7 +108,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 TABLE_USER + "(" + COLUMN_USER_ID + ")" +
                 ")";
         db.execSQL(createPreIncome);
-        String createPreExpense = "CREATE TABLE " + TABLE_PREDICTED_EXPENSE + " (" +
+        String createPreExpense = "CREATE TABLE IF NOT EXISTS " + TABLE_PREDICTED_EXPENSE + " (" +
                 COLUMN_PREDICTED_EXPENSE_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 COLUMN_PREDICTED_EXPENSE_PROJECT + " TEXT(20), " +
                 COLUMN_PREDICTED_EXPENSE_AMOUNT + " INTEGER, " +
@@ -112,7 +116,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 TABLE_USER + "(" + COLUMN_USER_ID + ")" +
                 ")";
         db.execSQL(createPreExpense);
-        String createIncome = "CREATE TABLE " + TABLE_INCOME + " (" +
+        String createIncome = "CREATE TABLE IF NOT EXISTS " + TABLE_INCOME + " (" +
                 COLUMN_INCOME_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 COLUMN_INCOME_CATEGORY + " TEXT(10), " +
                 COLUMN_INCOME_DATE + " DATE, " +
@@ -123,7 +127,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 TABLE_USER + "(" + COLUMN_USER_ID + ")" +
                 ")";
         db.execSQL(createIncome);
-        String createExpense = "CREATE TABLE " + TABLE_EXPENSE + " (" +
+        String createExpense = "CREATE TABLE IF NOT EXISTS " + TABLE_EXPENSE + " (" +
                 COLUMN_EXPENSE_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 COLUMN_EXPENSE_CATEGORY + " TEXT(10), " +
                 COLUMN_EXPENSE_DATE + " DATE, " +
@@ -134,7 +138,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 TABLE_USER + "(" + COLUMN_USER_ID + ")" +
                 ")";
         db.execSQL(createExpense);
-        String createMonthSummary = "CREATE TABLE " + TABLE_MONTHLY_SUMMARY + " (" +
+        String createMonthSummary = "CREATE TABLE IF NOT EXISTS " + TABLE_MONTHLY_SUMMARY + " (" +
                 COLUMN_MONTHLY_SUMMARY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 COLUMN_MONTHLY_SUMMARY_DATE + " DATE, " +
                 COLUMN_MONTHLY_INCOME_AMOUNT + " INTEGER, " +
@@ -144,7 +148,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 TABLE_USER + "(" + COLUMN_USER_ID + ")" +
                 ")";
         db.execSQL(createMonthSummary);
-        String createYearSummary = "CREATE TABLE " + TABLE_YEARLY_SUMMARY + " (" +
+        String createYearSummary = "CREATE TABLE IF NOT EXISTS " + TABLE_YEARLY_SUMMARY + " (" +
                 COLUMN_YEARLY_SUMMARY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 COLUMN_YEARLY_SUMMARY_DATE + " DATE, " +
                 COLUMN_YEARLY_INCOME_AMOUNT + " INTEGER, " +
@@ -165,10 +169,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("ALTER TABLE " + TABLE_USER + " ADD COLUMN " + COLUMN_EMAIL + " TEXT");
         db.execSQL("ALTER TABLE " + TABLE_USER + " ADD COLUMN " + COLUMN_PERMISSION + " INTEGER");
     }
-
+    private void upgradeToVersion3(SQLiteDatabase db) {
+        // 创建新表
+        createTables(db);
+    }
 
     private void dropTables(SQLiteDatabase db) {
-        // 删除用户表
+        // 删除所有表
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_USER);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_EXPENSE);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_INCOME);
@@ -176,5 +183,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_PREDICTED_INCOME);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_MONTHLY_SUMMARY);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_YEARLY_SUMMARY);
+    }
+    public Cursor getAllTransactions() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "SELECT * FROM " + TABLE_INCOME + " UNION ALL SELECT * FROM " + TABLE_EXPENSE + " ORDER BY date DESC";
+        return db.rawQuery(query, null);
     }
 }

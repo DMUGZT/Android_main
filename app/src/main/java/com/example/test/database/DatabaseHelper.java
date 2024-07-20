@@ -1,6 +1,7 @@
 package com.example.test.database;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
@@ -182,5 +183,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_PREDICTED_INCOME);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_MONTHLY_SUMMARY);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_YEARLY_SUMMARY);
+    }
+    public Cursor getAllTransactions() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "SELECT * FROM " + TABLE_INCOME + " UNION ALL SELECT * FROM " + TABLE_EXPENSE + " ORDER BY date DESC";
+        return db.rawQuery(query, null);
     }
 }

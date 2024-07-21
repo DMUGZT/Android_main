@@ -8,11 +8,11 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "app.db";
-    private static final int DATABASE_VERSION = 2; // 增加数据库版本
+    private static final int DATABASE_VERSION = 10; // 增加数据库版本
 
     // 用户表
     public static final String TABLE_USER = "user";
-    public static final String COLUMN_USER_ID = "_id";
+    public static final String COLUMN_USER_ID = "user_id";
     public static final String COLUMN_USERNAME = "username";
     public static final String COLUMN_PASSWORD = "password";
     public static final String COLUMN_NICKNAME = "nickname";
@@ -68,6 +68,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String COLUMN_YEARLY_SAVINGS = "savings";
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
+        SQLiteDatabase db = getWritableDatabase();
+        db.execSQL("PRAGMA foreign_keys = ON;");
     }
 
     @Override
@@ -83,10 +85,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         if (oldVersion < 3) {
             upgradeToVersion3(db);
         }
+        if (oldVersion < DATABASE_VERSION) {
+            upgradeToVersion10(db);
+        }
         // 如果有更多的升级可以添加更多的条件
     }
 
     private void createTables(SQLiteDatabase db) {
+
         // 创建用户表
         String createUserTable = "CREATE TABLE IF NOT EXISTS " + TABLE_USER + " (" +
                 COLUMN_USER_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
@@ -103,17 +109,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String createPreIncome = "CREATE TABLE IF NOT EXISTS " + TABLE_PREDICTED_INCOME + " (" +
                 COLUMN_PREDICTED_INCOME_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 COLUMN_PREDICTED_INCOME_PROJECT + " TEXT(20), " +
-                COLUMN_PREDICTED_INCOME_AMOUNT + "INTEGER, " +
-                "FOREIGN KEY (" + COLUMN_USER_ID + ") REFERENCES " +
-                TABLE_USER + "(" + COLUMN_USER_ID + ")" +
+                COLUMN_PREDICTED_INCOME_AMOUNT + " INTEGER, " +
+                COLUMN_USER_ID + " INTEGER " +
                 ")";
         db.execSQL(createPreIncome);
         String createPreExpense = "CREATE TABLE IF NOT EXISTS " + TABLE_PREDICTED_EXPENSE + " (" +
                 COLUMN_PREDICTED_EXPENSE_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 COLUMN_PREDICTED_EXPENSE_PROJECT + " TEXT(20), " +
                 COLUMN_PREDICTED_EXPENSE_AMOUNT + " INTEGER, " +
-                "FOREIGN KEY (" + COLUMN_USER_ID + ") REFERENCES " +
-                TABLE_USER + "(" + COLUMN_USER_ID + ")" +
+                COLUMN_USER_ID + " INTEGER " +
                 ")";
         db.execSQL(createPreExpense);
         String createIncome = "CREATE TABLE IF NOT EXISTS " + TABLE_INCOME + " (" +
@@ -123,8 +127,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 COLUMN_INCOME_AMOUNT + " INTEGER, " +
                 COLUMN_INCOME_DESCRIPTION + " TEXT(20), " +
                 COLUMN_INCOME_CASH_TYPE + " INTEGER, " +
-                "FOREIGN KEY (" + COLUMN_USER_ID + ") REFERENCES " +
-                TABLE_USER + "(" + COLUMN_USER_ID + ")" +
+                COLUMN_USER_ID + " INTEGER " +
                 ")";
         db.execSQL(createIncome);
         String createExpense = "CREATE TABLE IF NOT EXISTS " + TABLE_EXPENSE + " (" +
@@ -134,8 +137,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 COLUMN_EXPENSE_AMOUNT + " INTEGER, " +
                 COLUMN_EXPENSE_DESCRIPTION + " TEXT(20), " +
                 COLUMN_EXPENSE_CASH_TYPE + " INTEGER, " +
-                "FOREIGN KEY (" + COLUMN_USER_ID + ") REFERENCES " +
-                TABLE_USER + "(" + COLUMN_USER_ID + ")" +
+                COLUMN_USER_ID + " INTEGER " +
                 ")";
         db.execSQL(createExpense);
         String createMonthSummary = "CREATE TABLE IF NOT EXISTS " + TABLE_MONTHLY_SUMMARY + " (" +
@@ -144,8 +146,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 COLUMN_MONTHLY_INCOME_AMOUNT + " INTEGER, " +
                 COLUMN_MONTHLY_EXPENSE_AMOUNT + " INTEGER, " +
                 COLUMN_MONTHLY_SAVINGS + " INTEGER, " +
-                "FOREIGN KEY (" + COLUMN_USER_ID + ") REFERENCES " +
-                TABLE_USER + "(" + COLUMN_USER_ID + ")" +
+                COLUMN_USER_ID + " INTEGER " +
                 ")";
         db.execSQL(createMonthSummary);
         String createYearSummary = "CREATE TABLE IF NOT EXISTS " + TABLE_YEARLY_SUMMARY + " (" +
@@ -154,8 +155,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 COLUMN_YEARLY_INCOME_AMOUNT + " INTEGER, " +
                 COLUMN_YEARLY_EXPENSE_AMOUNT + " INTEGER, " +
                 COLUMN_YEARLY_SAVINGS + " INTEGER, " +
-                "FOREIGN KEY (" + COLUMN_USER_ID + ") REFERENCES " +
-                TABLE_USER + "(" + COLUMN_USER_ID + ")" +
+                COLUMN_USER_ID + " INTEGER " +
                 ")";
         db.execSQL(createYearSummary);
     }
@@ -170,6 +170,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("ALTER TABLE " + TABLE_USER + " ADD COLUMN " + COLUMN_PERMISSION + " INTEGER");
     }
     private void upgradeToVersion3(SQLiteDatabase db) {
+        // 创建新表
+        createTables(db);
+    }
+    private void upgradeToVersion10(SQLiteDatabase db) {
         // 创建新表
         createTables(db);
     }

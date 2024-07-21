@@ -1,7 +1,6 @@
 package com.example.test;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -15,29 +14,25 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.test.database.DatabaseHelper;
 import com.example.test.database.IncomeDAO;
-import com.example.test.database.UserDAO;
 import com.example.test.utils.UserSessionManager;
 
 import java.util.ArrayList;
-
 
 public class DetailsFragment extends Fragment {
 
     private RecyclerView recyclerView;
     private Detail_TransactionAdapter adapter;
     private ArrayList<Detail_Transaction> transactionList;
-    private UserSessionManager usersessionmanager;
-    private IncomeDAO incomeDAO;
-    private UserDAO userDAO;
     private UserSessionManager sessionManager;
+    private IncomeDAO incomeDAO;
     private double incomeTotal;
     private double paymentTotal;
     private TextView incomeTextView;
     private TextView paymentTextView;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
 
         View view = inflater.inflate(R.layout.fragment_details, container, false);
         incomeDAO = new IncomeDAO(getContext());
@@ -47,14 +42,25 @@ public class DetailsFragment extends Fragment {
         incomeTextView = view.findViewById(R.id.income_month);
         paymentTextView = view.findViewById(R.id.payment);
 
-        DatabaseHelper dbHelper = new DatabaseHelper(getActivity());
-
-//        Test_Database test = new Test_Database(dbHelper);
-//        test.insertTestData();
         transactionList = new ArrayList<>();
+        adapter = new Detail_TransactionAdapter(transactionList);
+        recyclerView.setAdapter(adapter);
+
+        loadData();
+        return view;
+    }
+    public void onResume() {
+        super.onResume();
+        loadData();
+        // 设置 UI 元素或加载数据
+    }
+    private void loadData() {
         String userId = sessionManager.getUserId();
         Cursor cursor = incomeDAO.getIncomeById(Integer.parseInt(userId));
-//        Cursor cursor = dbHelper.getAllTransactions();
+
+        transactionList.clear();
+        incomeTotal = 0.0;
+        paymentTotal = 0.0;
 
         if (cursor.moveToFirst()) {
             do {
@@ -70,6 +76,7 @@ public class DetailsFragment extends Fragment {
             } while (cursor.moveToNext());
         }
         cursor.close();
+
         for (Detail_Transaction transaction : transactionList) {
             if ("入账".equals(transaction.getCategory())) {
                 incomeTotal += transaction.getAmount();
@@ -80,10 +87,10 @@ public class DetailsFragment extends Fragment {
 
         incomeTextView.setText(String.format("%.2f", incomeTotal));
         paymentTextView.setText(String.format("%.2f", paymentTotal));
-        // Set up adapter
-        adapter = new Detail_TransactionAdapter(transactionList);
-        recyclerView.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
+    }
 
-        return view;
+    public void refreshData() {
+        loadData();
     }
 }

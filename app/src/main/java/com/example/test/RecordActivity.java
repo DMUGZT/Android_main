@@ -20,6 +20,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.FragmentManager;
 
 import com.example.test.database.DatabaseHelper;
 import com.example.test.database.IncomeDAO;
@@ -59,6 +60,7 @@ public class RecordActivity extends BottomSheetDialogFragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_record, container, false);
+
 
         inputNumber = view.findViewById(R.id.input_number);
 
@@ -206,9 +208,9 @@ public class RecordActivity extends BottomSheetDialogFragment {
             public void onClick(View v) {
                 double number = getInputNumber();
                 String message = "分类: " + selectedCategory + "\n类型: " + selectedType + "\n金额: " + number + "\n日期: " + dates.get(spinnerDate.getSelectedItemPosition());
-                String category = selectedCategory;
+//                String category = selectedCategory;
                 String type = selectedType;
-                int amount = (int) number;
+                int amount = (int) number;//todo 数据库类型转换，插入数据库之前都是浮点
                 String date = dates.get(spinnerDate.getSelectedItemPosition());
                 String description = selectedCategory;
                 int cashType = 1;
@@ -224,14 +226,26 @@ public class RecordActivity extends BottomSheetDialogFragment {
                 dialog.show();
                 String userId = sessionManager.getUserId();
                 // 插入数据库
-                long newRowId = incomeDAO.addIncome(category,date,amount,description,cashType,Integer.parseInt(userId));
+                long newRowId = incomeDAO.addIncome(type,date,amount,description,cashType,Integer.parseInt(userId));
                 if (newRowId != -1) {
                     // 插入成功
                     Toast.makeText(getActivity(), "数据插入成功", Toast.LENGTH_SHORT).show();
+
+                    // 获取 FragmentManager
+                    FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+
+                    // 查找 Fragment 实例
+                    DetailsFragment df = (DetailsFragment) fragmentManager.findFragmentByTag("details_fragment_tag");
+
+                    if (df != null) {
+                        // 调用刷新数据的方法
+                        df.refreshData();
+                    }
                 } else {
                     // 插入失败
                     Toast.makeText(getActivity(), "数据插入失败", Toast.LENGTH_SHORT).show();
                 }
+
                 dismiss();
             }
         });

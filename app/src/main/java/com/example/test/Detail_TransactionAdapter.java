@@ -13,12 +13,13 @@ public class Detail_TransactionAdapter extends RecyclerView.Adapter<Detail_Trans
     private ArrayList<Detail_Transaction> transactionList;
 
     public static class TransactionViewHolder extends RecyclerView.ViewHolder {
-        public TextView textViewDate, textViewDescription, textViewAmount;
+        public TextView textViewDate, textViewDescription, textViewAmount,textViewMoneyType;
 
         public TransactionViewHolder(View itemView) {
             super(itemView);
             textViewDate = itemView.findViewById(R.id.textViewDate);
             textViewDescription = itemView.findViewById(R.id.textViewDescription);
+            textViewMoneyType = itemView.findViewById(R.id.textViewMoneyType);
             textViewAmount = itemView.findViewById(R.id.textViewAmount);
         }
     }
@@ -38,6 +39,7 @@ public class Detail_TransactionAdapter extends RecyclerView.Adapter<Detail_Trans
     public void onBindViewHolder(TransactionViewHolder holder, int position) {
         Detail_Transaction transaction = transactionList.get(position);
         holder.textViewDate.setText(transaction.getDate());
+        holder.textViewMoneyType.setText(transaction.getCategory());
         holder.textViewDescription.setText(transaction.getDescription());
         holder.textViewAmount.setText(String.valueOf(transaction.getAmount()));
     }

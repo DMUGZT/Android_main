@@ -9,14 +9,23 @@
         android:id="@+id/textViewDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:gravity="start"
         android:text="日期"
         android:layout_weight="1"
         android:textSize="16sp"/>
-
+    <TextView
+        android:id="@+id/textViewMoneyType"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center_horizontal"
+        android:text="类型"
+        android:textSize="16sp" />
     <TextView
         android:id="@+id/textViewDescription"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
         android:text="描述"
         android:layout_weight="1"
         android:textSize="16sp"/>

@@ -28,8 +28,7 @@ public class UserSessionManager {
         editor.clear();
         editor.apply();
     }
-//UserSessionManager sessionManager = new UserSessionManager(context);
-//sessionManager.logoutUser();
+
     public boolean isLoggedIn() {
         return sharedPreferences.getBoolean(KEY_IS_LOGGED_IN, false);
     }

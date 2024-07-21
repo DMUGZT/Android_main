@@ -8,6 +8,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.test.database.AccountDAO;
 import com.example.test.database.UserDAO;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
@@ -20,6 +21,7 @@ public class RegisterActivity extends AppCompatActivity {
     private TextInputLayout usernameTextInputLayout, passwordTextInputLayout, confirmPasswordTextInputLayout;
     private MaterialButton registerButton;
     private UserDAO userDAO;
+    private AccountDAO accountDAO;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +38,7 @@ public class RegisterActivity extends AppCompatActivity {
         registerButton = findViewById(R.id.registerButton);
         TextView loginTextView = findViewById(R.id.loginTextView);
         userDAO = new UserDAO(this);
+        accountDAO = new AccountDAO(this);
 
         usernameEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -74,6 +77,8 @@ public class RegisterActivity extends AppCompatActivity {
                         Toast.makeText(RegisterActivity.this, "用户已存在", Toast.LENGTH_SHORT).show();
                     } else {
                         userDAO.addUser(username, password);
+                        String userId = userDAO.getUserIdByUsername(username);
+                        accountDAO.initUserAccount(userId);
                         Toast.makeText(RegisterActivity.this, "注册成功", Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
                         startActivity(intent);

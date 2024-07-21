@@ -64,7 +64,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="10dp"
-                    android:text="我的帐户"
+                    android:text="我的资产"
                     android:textSize="16sp"
                     android:drawableStart="@drawable/ic_account"
                     android:drawablePadding="10dp"

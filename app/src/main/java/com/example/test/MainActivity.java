@@ -38,10 +38,10 @@ public class MainActivity extends AppCompatActivity {
         detailsText.setTextColor(getResources().getColor(R.color.selected_color));
 
         // 添加碎片
-        getSupportFragmentManager().beginTransaction().add(R.id.layout, billsFragment).commit();
-        getSupportFragmentManager().beginTransaction().add(R.id.layout, detailsFragment).commit();
-        getSupportFragmentManager().beginTransaction().add(R.id.layout, myFragment).commit();
-        getSupportFragmentManager().beginTransaction().add(R.id.layout, cartFragment).commit();
+        getSupportFragmentManager().beginTransaction().add(R.id.layout, billsFragment, "bills_fragment_tag").commit();
+        getSupportFragmentManager().beginTransaction().add(R.id.layout, detailsFragment, "details_fragment_tag").commit();
+        getSupportFragmentManager().beginTransaction().add(R.id.layout, myFragment, "my_fragment_tag").commit();
+        getSupportFragmentManager().beginTransaction().add(R.id.layout, cartFragment, "cart_fragment_tag").commit();
 
         getSupportFragmentManager().beginTransaction().show(detailsFragment).hide(myFragment).hide(cartFragment).hide(billsFragment).commit();
 
@@ -84,8 +84,8 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.record_section).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, RecordActivity.class);
-                startActivity(intent);
+                RecordActivity bottomSheet = new RecordActivity();
+                bottomSheet.show(getSupportFragmentManager(), "RecordActivity");
             }
         });
     }

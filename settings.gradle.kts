@@ -3,6 +3,7 @@ pluginManagement {
         maven(url ="https://maven.aliyun.com/repository/google")
         maven(url ="https://maven.aliyun.com/repository/central")
         maven(url ="https://maven.aliyun.com/repository/gradle-plugin")
+        maven { url = uri("https://jitpack.io") }
         google {
             content {
                 includeGroupByRegex("com\\.android.*")
@@ -19,6 +20,7 @@ dependencyResolutionManagement {
     repositories {
         maven(url ="https://maven.aliyun.com/repository/google")
         maven(url ="https://maven.aliyun.com/repository/central")
+        maven { url = uri("https://jitpack.io") }
         google()
         mavenCentral()
     }

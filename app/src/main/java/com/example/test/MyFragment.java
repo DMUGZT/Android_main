@@ -97,6 +97,8 @@ public class MyFragment extends Fragment {
             }
         });
 
+
+
         help.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -123,10 +125,18 @@ public class MyFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        // 每次返回这个页面时重新加载用户信息
+        loadUserInfo();
+    }
+
+
     private void loadUserInfo() {
         // 获取用户信息，例如用户ID为1
 //        sessionManager.getUserId();
-        String userId =  sessionManager.getUserId();; // 根据实际情况获取用户ID
+        String userId =  sessionManager.getUserId(); // 根据实际情况获取用户ID
 
         Cursor cursor = userDAO.getUserInfo(userId);
         if (cursor != null && cursor.moveToFirst()) {
@@ -162,8 +172,8 @@ public class MyFragment extends Fragment {
 
     public void onSettingsClick(View view) {
         // 跳转到设置页面
-        // Intent intent = new Intent(getActivity(), SettingsActivity.class);
-        // startActivity(intent);
+         Intent intent = new Intent(getActivity(), SettingsActivity.class);
+         startActivity(intent);
     }
 
     public void onHelpClick(View view) {

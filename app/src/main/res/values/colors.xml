@@ -9,4 +9,5 @@
     <color name="primary">#CDCBD1</color> <!-- 添加 primary 颜色 -->
     <color name="selected_color">#FF5722</color>
     <color name="default_color">#C3BBBB</color>
+    <color name="bk">#FBF5F5</color>
 </resources>

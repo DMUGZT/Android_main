@@ -114,11 +114,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private void createTables(SQLiteDatabase db) {
 
         // 创建用户表
-        String createUserTable = "CREATE TABLE IF NOT EXISTS " + TABLE_USER + " (" +
+        String createUserTable = "CREATE TABLE " + TABLE_USER + " (" +
                 COLUMN_USER_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 COLUMN_USERNAME + " TEXT, " +
-                COLUMN_PASSWORD + " TEXT " +
-                ") ";
+                COLUMN_PASSWORD + " TEXT, " +
+                COLUMN_NICKNAME + " TEXT, " +
+                COLUMN_PROFILE_IMAGE + " TEXT, " +
+                COLUMN_GENDER + " TEXT, " +
+                COLUMN_PHONE + " TEXT, " +
+                COLUMN_EMAIL + " TEXT, " +
+                COLUMN_PERMISSION + " INTEGER" +
+                ")";
         db.execSQL(createUserTable);
 
 
@@ -127,7 +133,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 COLUMN_ACCOUNT_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 COLUMN_ACCOUNT_USER_ID + " INTEGER, " +
                 COLUMN_ACCOUNT_TYPE + " TEXT, " +
-                COLUMN_ACCOUNT_BALANCE + " REAL " + ")";
+                COLUMN_ACCOUNT_BALANCE + " REAL " +
+                ")";
         db.execSQL(createAccountTable);
 
 

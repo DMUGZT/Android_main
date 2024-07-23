@@ -6,6 +6,9 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
@@ -17,6 +20,7 @@ import com.example.test.database.IncomeDAO;
 import com.example.test.utils.UserSessionManager;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class DetailsFragment extends Fragment {
 
@@ -29,7 +33,9 @@ public class DetailsFragment extends Fragment {
     private double paymentTotal;
     private TextView incomeTextView;
     private TextView paymentTextView;
+    private Spinner monthSpinner;
 
+    private String selectedMonth ;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,12 +47,14 @@ public class DetailsFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         incomeTextView = view.findViewById(R.id.income_month);
         paymentTextView = view.findViewById(R.id.payment);
+        monthSpinner = view.findViewById(R.id.month_spinner);
 
         transactionList = new ArrayList<>();
         adapter = new Detail_TransactionAdapter(transactionList);
         recyclerView.setAdapter(adapter);
 
-        loadData();
+        setupMonthSpinner();
+
         return view;
     }
     public void onResume() {
@@ -54,9 +62,39 @@ public class DetailsFragment extends Fragment {
         loadData();
         // 设置 UI 元素或加载数据
     }
+
+    @SuppressLint("DefaultLocale")
+    private void setupMonthSpinner() {
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(),
+                R.array.months_array, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        monthSpinner.setAdapter(adapter);
+
+        // Initialize selectedMonth with the current month
+        Calendar calendar = Calendar.getInstance();
+        int currentMonth = calendar.get(Calendar.MONTH); // 0-indexed
+        selectedMonth = String.format("%d月", currentMonth + 1); // 1-indexed
+
+        // Set the spinner to the current month
+        monthSpinner.setSelection(currentMonth);
+
+        monthSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                selectedMonth = String.format("%d月", position + 1); // 1-indexed
+                loadData();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // Do nothing
+            }
+        });
+    }
     private void loadData() {
         String userId = sessionManager.getUserId();
-        Cursor cursor = incomeDAO.getIncomeById(Integer.parseInt(userId));
+        Cursor cursor = incomeDAO.getIncomeByMonth(userId, selectedMonth);
 
         transactionList.clear();
         incomeTotal = 0.0;
@@ -78,9 +116,9 @@ public class DetailsFragment extends Fragment {
         cursor.close();
 
         for (Detail_Transaction transaction : transactionList) {
-            if ("入账".equals(transaction.getCategory())) {
+            if ("入账".equals(transaction.getDescription())) {
                 incomeTotal += transaction.getAmount();
-            } else if ("支出".equals(transaction.getCategory())) {
+            } else if ("支出".equals(transaction.getDescription())) {
                 paymentTotal += transaction.getAmount();
             }
         }

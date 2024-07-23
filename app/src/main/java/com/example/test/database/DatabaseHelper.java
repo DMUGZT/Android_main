@@ -127,9 +127,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 COLUMN_ACCOUNT_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 COLUMN_ACCOUNT_USER_ID + " INTEGER, " +
                 COLUMN_ACCOUNT_TYPE + " TEXT, " +
-                COLUMN_ACCOUNT_BALANCE + " REAL, " +
-                COLUMN_USER_ID + " INTEGER " +
-                ")";
+                COLUMN_ACCOUNT_BALANCE + " REAL " + ")";
         db.execSQL(createAccountTable);
 
 

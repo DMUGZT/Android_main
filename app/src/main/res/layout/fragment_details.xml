@@ -52,16 +52,14 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/years"
-                    android:text="1970年"
-                    android:textSize="16sp"/>
-                <TextView
+                    android:text="2024年"
+                    android:textSize="20sp" />
+
+                <Spinner
+                    android:id="@+id/month_spinner"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/months"
-                    android:text="1月"
-                    android:textSize="24sp"
-                    android:textStyle="bold"/>
+                    />
             </LinearLayout>
 
             <LinearLayout

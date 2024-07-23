@@ -70,5 +70,10 @@ public class IncomeDAO {
 
         return cursor;
     }
+    public Cursor getIncomeByMonth(String userId, String month) {
+        String query = "SELECT * FROM income WHERE user_id = ? AND date LIKE ?";
+        Cursor cursor = database.rawQuery(query, new String[]{userId, month + '%'});
+        return cursor;
+    }
 
 }

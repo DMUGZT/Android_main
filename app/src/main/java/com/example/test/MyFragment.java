@@ -164,8 +164,8 @@ public class MyFragment extends Fragment {
 
     public void onSettingsClick(View view) {
         // 跳转到设置页面
-        // Intent intent = new Intent(getActivity(), SettingsActivity.class);
-        // startActivity(intent);
+         Intent intent = new Intent(getActivity(), SettingsActivity.class);
+         startActivity(intent);
     }
 
     public void onHelpClick(View view) {

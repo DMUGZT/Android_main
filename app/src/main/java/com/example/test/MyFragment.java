@@ -97,7 +97,7 @@ public class MyFragment extends Fragment {
             }
         });
 
-        
+
 
         help.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -128,7 +128,7 @@ public class MyFragment extends Fragment {
     private void loadUserInfo() {
         // 获取用户信息，例如用户ID为1
 //        sessionManager.getUserId();
-        String userId =  sessionManager.getUserId();; // 根据实际情况获取用户ID
+        String userId =  sessionManager.getUserId(); // 根据实际情况获取用户ID
 
         Cursor cursor = userDAO.getUserInfo(userId);
         if (cursor != null && cursor.moveToFirst()) {

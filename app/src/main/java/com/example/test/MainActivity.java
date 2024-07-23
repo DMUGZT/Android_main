@@ -84,8 +84,8 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.record_section).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, RecordActivity.class);
-                startActivity(intent);
+                RecordActivity bottomSheet = new RecordActivity();
+                bottomSheet.show(getSupportFragmentManager(), "RecordActivity");
             }
         });
     }

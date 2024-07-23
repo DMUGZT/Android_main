@@ -21,9 +21,7 @@
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-
-        </activity>
+            </intent-filter>        </activity>
         <activity
             android:name=".MainActivity"
             android:exported="true">
@@ -34,9 +32,7 @@
         <activity
             android:name=".ForgotPasswordActivity"
             android:exported="true"></activity>
-        <activity
-            android:name=".RecordActivity"
-            android:exported="true"></activity>
+
         <activity
             android:name=".UserDetailsActivity"
             android:exported="true"></activity>

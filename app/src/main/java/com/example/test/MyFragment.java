@@ -125,6 +125,14 @@ public class MyFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        // 每次返回这个页面时重新加载用户信息
+        loadUserInfo();
+    }
+
+
     private void loadUserInfo() {
         // 获取用户信息，例如用户ID为1
 //        sessionManager.getUserId();

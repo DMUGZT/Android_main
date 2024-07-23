@@ -28,5 +28,8 @@ public class Detail_Transaction {
     public double getAmount() {
         return amount;
     }
+
+    public String getCategory() {return category;}
+//    public double getAmount() {return amount;}
     // ...
 }

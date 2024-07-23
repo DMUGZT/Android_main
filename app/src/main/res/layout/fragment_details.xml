@@ -80,7 +80,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/income_month"
-                    android:text="100.00"
+                    android:text="0.00"
                     android:textSize="24sp"
                     android:textStyle="bold"/>
             </LinearLayout>
@@ -101,7 +101,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/payment"
-                    android:text="99.00"
+                    android:text="0.00"
                     android:textSize="24sp"
                     android:textStyle="bold"/>
             </LinearLayout>
@@ -123,7 +123,14 @@
             android:gravity="center"
             android:text="日期"
             android:textSize="16sp" />
-
+        <TextView
+            android:id="@+id/textViewMoneyType"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="类型"
+            android:textSize="16sp" />
         <TextView
             android:id="@+id/textViewDescription"
             android:layout_width="wrap_content"
@@ -132,7 +139,6 @@
             android:gravity="center"
             android:text="描述"
             android:textSize="16sp" />
-
         <TextView
             android:id="@+id/textViewAmount"
             android:layout_width="wrap_content"
@@ -146,11 +152,11 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
-        android:layout_marginTop="-5dp"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginTop="-5dp"
         android:layout_weight="1"
-        android:padding="16dp"/>
+        android:padding="16dp" />
 
     <!-- 底部导航栏代码放这 -->
 

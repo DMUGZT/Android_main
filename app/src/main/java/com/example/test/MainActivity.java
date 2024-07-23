@@ -38,10 +38,10 @@ public class MainActivity extends AppCompatActivity {
         detailsText.setTextColor(getResources().getColor(R.color.selected_color));
 
         // 添加碎片
-        getSupportFragmentManager().beginTransaction().add(R.id.layout, billsFragment).commit();
-        getSupportFragmentManager().beginTransaction().add(R.id.layout, detailsFragment).commit();
-        getSupportFragmentManager().beginTransaction().add(R.id.layout, myFragment).commit();
-        getSupportFragmentManager().beginTransaction().add(R.id.layout, chartFragment).commit();
+        getSupportFragmentManager().beginTransaction().add(R.id.layout, billsFragment, "bills_fragment_tag").commit();
+        getSupportFragmentManager().beginTransaction().add(R.id.layout, detailsFragment, "details_fragment_tag").commit();
+        getSupportFragmentManager().beginTransaction().add(R.id.layout, myFragment, "my_fragment_tag").commit();
+        getSupportFragmentManager().beginTransaction().add(R.id.layout, chartFragment, "cart_fragment_tag").commit();
 
         getSupportFragmentManager().beginTransaction().show(detailsFragment).hide(myFragment).hide(chartFragment).hide(billsFragment).commit();
 

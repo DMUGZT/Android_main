@@ -32,9 +32,10 @@ public class BillsFragmentAdapter extends RecyclerView.Adapter<BillsFragmentAdap
     @Override
     public TransactionViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_transaction, parent, false);
+                .inflate(R.layout.item_monthbills, parent, false);
         return new TransactionViewHolder(itemView);
     }
+
 
     @Override
     public void onBindViewHolder(TransactionViewHolder holder, int position) {

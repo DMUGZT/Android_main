@@ -1,19 +1,16 @@
 package com.example.test;
 
 public class BillsMonth {
-    private int id;
     private double income;
     private String date;
     private double balance;
     private double expense;
-    private String cashType;
-    public BillsMonth(int id, double income, String date, double balance, double expense, String cashType) {
-        this.id = id;
+
+    public BillsMonth( double income,double expense,String date, double balance) {
         this.income = income;
         this.date = date;
         this.expense = expense;
         this.balance = balance;
-        this.cashType = cashType;
     }
     // Getters and Setters
 
@@ -29,7 +26,7 @@ public class BillsMonth {
         return expense;
     }
 
-    public double getMonthBalance() {return balance;}
-//    public double getAmount() {return amount;}
-    // ...
+    public double getMonthBalance() {
+        return balance;
+    }
 }

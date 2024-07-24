@@ -1,3 +1,35 @@
 <resources>
     <string name="app_name">Test</string>
+
+    <string name="title_activity_admin">AdminActivity</string>
+
+    <string-array name="months_array">
+        <item>1月</item>
+        <item>2月</item>
+        <item>3月</item>
+        <item>4月</item>
+        <item>5月</item>
+        <item>6月</item>
+        <item>7月</item>
+        <item>8月</item>
+        <item>9月</item>
+        <item>10月</item>
+        <item>11月</item>
+        <item>12月</item>
+    </string-array>
+    <string-array name="years_array">
+        <item>2018年</item>
+        <item>2019年</item>
+        <item>2020年</item>
+        <item>2021年</item>
+        <item>2022年</item>
+        <item>2023年</item>
+        <item>2024年</item>
+        <item>2025年</item>
+        <item>2026年</item>
+        <item>2027年</item>
+        <item>2028年</item>
+        <item>2029年</item>
+    </string-array>
+
 </resources>

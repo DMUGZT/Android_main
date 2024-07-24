@@ -16,6 +16,9 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.test.database.IncomeDAO;
+import com.example.test.utils.UserSessionManager;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,7 +36,12 @@ public class BillsFragment extends Fragment {
     private ArrayList<BillsMonth> BillsMonthList;
     private RecyclerView recyclerView;
     private BillsFragmentAdapter adapter;
-
+    private UserSessionManager sessionManager;
+    private IncomeDAO incomeDAO;
+    private String year = "2024";
+    private String month = "1";
+    private double incomeTotal;
+    private double paymentTotal;
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -75,19 +83,19 @@ public class BillsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_bills,container,false);
-        TextView Textview1=(TextView) (view.findViewById(R.id.textView1));
-        TextView Textview2=(TextView) (view.findViewById(R.id.textView2));
-        TextView Textview3=(TextView) (view.findViewById(R.id.textView3));
-        TextView Textview4=(TextView) (view.findViewById(R.id.textView4));
+        View view = inflater.inflate(R.layout.fragment_bills, container, false);
+        TextView Textview1 = (TextView) (view.findViewById(R.id.textView1));
+        TextView Textview2 = (TextView) (view.findViewById(R.id.textView2));
+        TextView Textview3 = (TextView) (view.findViewById(R.id.textView3));
+        TextView Textview4 = (TextView) (view.findViewById(R.id.textView4));
 
         (view.findViewById(R.id.radioButton1)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-           Textview1.setText("月份");
-           Textview2.setText("月收入");
-           Textview3.setText("月支出");
-           Textview4.setText("月结余");
+                Textview1.setText("月份");
+                Textview2.setText("月收入");
+                Textview3.setText("月支出");
+                Textview4.setText("月结余");
                 BillsMonthList = new ArrayList<>();
                 adapter = new BillsFragmentAdapter(BillsMonthList);
                 recyclerView.setAdapter(adapter);
@@ -105,36 +113,38 @@ public class BillsFragment extends Fragment {
         });
         return view;
     }
-//    private void LoadData(){
-//        Cursor cursor = incomeDAO.getIncomeById(Integer.parseInt(userId));
+
+//    private void LoadData() {
+//        for () {
+//            Cursor cursor = incomeDAO.getIncomeByYearAndMonth(sessionManager.getUserId(), year, month);
 //
-//        transactionList.clear();
-//        incomeTotal = 0.0;
-//        paymentTotal = 0.0;
+//            BillsMonthList.clear();
+//            incomeTotal = 0.0;
+//            paymentTotal = 0.0;
 //
-//        if (cursor.moveToFirst()) {
-//            do {
-//                @SuppressLint("Range") String category = cursor.getString(cursor.getColumnIndex("category"));
-//                @SuppressLint("Range") String date = cursor.getString(cursor.getColumnIndex("date"));
-//                @SuppressLint("Range") double amount = cursor.getDouble(cursor.getColumnIndex("amount"));
-//                @SuppressLint("Range") String description = cursor.getString(cursor.getColumnIndex("description"));
+//            if (cursor.moveToFirst()) {
+//                do {
+//                    @SuppressLint("Range") String date = cursor.getString(cursor.getColumnIndex("date"));
+//                    @SuppressLint("Range") double amount = cursor.getDouble(cursor.getColumnIndex("amount"));
+//                    @SuppressLint("Range") String description = cursor.getString(cursor.getColumnIndex("description"));
 //
-//                Detail_Transaction transaction = new Detail_Transaction(id, category, date, amount, description, cashType);
-//                transactionList.add(transaction);
-//            } while (cursor.moveToNext());
-//        }
-//        cursor.close();
-//
-//        for (Detail_Transaction transaction : transactionList) {
-//            if ("入账".equals(transaction.getCategory())) {
-//                incomeTotal += transaction.getAmount();
-//            } else if ("支出".equals(transaction.getCategory())) {
-//                paymentTotal += transaction.getAmount();
+//                    BillsMonth Bills = new BillsMonth(, date, amount, description);
+//                    BillsMonthList.add(Bills);
+//                } while (cursor.moveToNext());
 //            }
-//        }
+//            cursor.close();
 //
-//        incomeTextView.setText(String.format("%.2f", incomeTotal));
-//        paymentTextView.setText(String.format("%.2f", paymentTotal));
-//        adapter.notifyDataSetChanged();
+//            for (Detail_Transaction transaction : transactionList) {
+//                if ("入账".equals(transaction.getCategory())) {
+//                    incomeTotal += transaction.getAmount();
+//                } else if ("支出".equals(transaction.getCategory())) {
+//                    paymentTotal += transaction.getAmount();
+//                }
+//            }
+//
+//            incomeTextView.setText(String.format("%.2f", incomeTotal));
+//            paymentTextView.setText(String.format("%.2f", paymentTotal));
+//            adapter.notifyDataSetChanged();
+//        }
 //    }
 }

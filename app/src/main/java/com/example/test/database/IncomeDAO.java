@@ -57,7 +57,12 @@ public class IncomeDAO {
 //    public Cursor getAllIncomes() {
 //        return database.query(DatabaseHelper.TABLE_INCOME, null, null, null, null, null, DatabaseHelper.COLUMN_INCOME_DATE + " DESC");
 //    }
-
+    public boolean DeleteById(int id){
+        String whereClause = "_id = ?";
+        String[] whereArgs = new String[] { String.valueOf(id) };
+        int rowsDeleted = database.delete("income", whereClause, whereArgs);
+        return rowsDeleted > 0;
+    }
     // 根据用户ID查询收入记录
     public Cursor getIncomeById(long id) {
         String query = "SELECT * FROM " + DatabaseHelper.TABLE_INCOME + " WHERE " + DatabaseHelper.COLUMN_USER_ID + " = " + id +
@@ -69,16 +74,7 @@ public class IncomeDAO {
 
         return cursor;
     }
-    public Cursor getIncomeByMonth(String userId, String month) {
-        String query = "SELECT * FROM income WHERE user_id = ? AND date LIKE ?";
-        Cursor cursor = database.rawQuery(query, new String[]{userId, month + '%'});
-        return cursor;
-    }
-    public Cursor getIncomeByYear(String userId, String year) {
-        String query = "SELECT * FROM income WHERE user_id = ? AND date LIKE ?";
-        Cursor cursor = database.rawQuery(query, new String[]{userId, year + '%'});
-        return cursor;
-    }
+
     public Cursor getIncomeByYearAndMonth(String userId, String year, String month) {
         // 构建查询字符串，格式为 "YYYY-M%"
         String queryDate = year + "-" + month + "%";

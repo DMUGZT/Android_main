@@ -85,7 +85,7 @@
                 android:layout_columnWeight="1"
                 android:layout_margin="4dp"
                 android:text="餐饮"
-                android:textSize="12sp"
+                android:textSize="15sp"
                 android:gravity="center"/>
 
             <Button
@@ -95,7 +95,7 @@
                 android:layout_columnWeight="1"
                 android:layout_margin="4dp"
                 android:text="交通"
-                android:textSize="12sp"
+                android:textSize="15sp"
                 android:gravity="center"/>
 
             <Button
@@ -105,7 +105,7 @@
                 android:layout_columnWeight="1"
                 android:layout_margin="4dp"
                 android:text="服饰"
-                android:textSize="12sp"
+                android:textSize="15sp"
                 android:gravity="center"/>
 
             <Button
@@ -115,10 +115,10 @@
                 android:layout_columnWeight="1"
                 android:layout_margin="4dp"
                 android:text="购物"
-                android:textSize="12sp"
+                android:textSize="15sp"
                 android:gravity="center"/>
 
-            <!--其他类型继续添加在这里 -->
+
 
         </GridLayout>
     </GridLayout>
@@ -138,6 +138,7 @@
             android:layout_height="wrap_content"
             android:layout_rowWeight="1"
             android:layout_gravity="fill"
+            android:textSize="20sp"
             android:text="1" />
 
         <Button
@@ -146,6 +147,7 @@
             android:layout_height="wrap_content"
             android:layout_rowWeight="1"
             android:layout_gravity="fill"
+            android:textSize="20sp"
             android:text="2" />
 
         <Button
@@ -154,6 +156,7 @@
             android:layout_height="wrap_content"
             android:layout_rowWeight="1"
             android:layout_gravity="fill"
+            android:textSize="20sp"
             android:text="3" />
 
         <Button
@@ -162,6 +165,8 @@
             android:layout_height="wrap_content"
             android:layout_rowWeight="1"
             android:layout_gravity="fill"
+            android:textSize="20sp"
+            android:textStyle="bold"
             android:text="⌫" />
 
         <Button
@@ -170,6 +175,7 @@
             android:layout_height="wrap_content"
             android:layout_rowWeight="1"
             android:layout_gravity="fill"
+            android:textSize="20sp"
             android:text="4" />
 
         <Button
@@ -178,6 +184,7 @@
             android:layout_height="wrap_content"
             android:layout_rowWeight="1"
             android:layout_gravity="fill"
+            android:textSize="20sp"
             android:text="5" />
 
         <Button
@@ -186,6 +193,7 @@
             android:layout_height="wrap_content"
             android:layout_rowWeight="1"
             android:layout_gravity="fill"
+            android:textSize="20sp"
             android:text="6" />
 
         <Button
@@ -196,6 +204,8 @@
             android:layout_rowWeight="2"
             android:layout_gravity="fill"
             android:background="#C8E6C9"
+            android:textSize="20sp"
+            android:textStyle="bold"
             android:text="确定" />
 
         <Button
@@ -204,6 +214,7 @@
             android:layout_height="wrap_content"
             android:layout_rowWeight="1"
             android:layout_gravity="fill"
+            android:textSize="20sp"
             android:text="7" />
 
         <Button
@@ -212,6 +223,7 @@
             android:layout_height="wrap_content"
             android:layout_rowWeight="1"
             android:layout_gravity="fill"
+            android:textSize="20sp"
             android:text="8" />
 
         <Button
@@ -220,6 +232,7 @@
             android:layout_height="wrap_content"
             android:layout_rowWeight="1"
             android:layout_gravity="fill"
+            android:textSize="20sp"
             android:text="9" />
 
         <Button
@@ -229,6 +242,7 @@
             android:layout_columnSpan="2"
             android:layout_rowWeight="1"
             android:layout_gravity="fill"
+            android:textSize="20sp"
             android:text="0" />
 
         <Button
@@ -237,6 +251,8 @@
             android:layout_height="wrap_content"
             android:layout_rowWeight="1"
             android:layout_gravity="fill"
+            android:textSize="20sp"
+            android:textStyle="bold"
             android:text="." />
     </GridLayout>
     <!-- Add more views as needed -->

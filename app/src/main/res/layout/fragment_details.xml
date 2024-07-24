@@ -53,12 +53,15 @@
                     android:id="@+id/year_spinner"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+
                     />
 
                 <Spinner
                     android:id="@+id/month_spinner"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+
                     />
             </LinearLayout>
 

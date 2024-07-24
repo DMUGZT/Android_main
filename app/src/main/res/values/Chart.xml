@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="Type">
+        <item>收入分析</item>
+        <item>支出分析</item>
+        <item>收支平衡分析</item>
+    </string-array>
+    <string-array name="Chart">
+        <item>折线图</item>
+        <item>柱状图</item>
+        <item>饼图</item>
+    </string-array>
+</resources>

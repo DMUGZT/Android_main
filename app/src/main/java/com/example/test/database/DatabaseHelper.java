@@ -11,7 +11,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "app.db";
-    private static final int DATABASE_VERSION = 10; // 增加数据库版本
+    private static final int DATABASE_VERSION = 11; // 增加数据库版本
 
 
     // 用户表
@@ -25,6 +25,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String COLUMN_PHONE = "phone";
     public static final String COLUMN_EMAIL = "email";
     public static final String COLUMN_PERMISSION = "permission";
+    public static final String COLUMN_IS_DELETE = "is_delete";
     // 预测收入表
     public static final String TABLE_PREDICTED_INCOME = "predicted_income";
     public static final String COLUMN_PREDICTED_INCOME_ID = "_id";
@@ -105,7 +106,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             upgradeToVersion3(db);
         }
         if (oldVersion < DATABASE_VERSION) {
-            upgradeToVersion10(db);
+            upgradeToVersion11(db);
         }
         // 如果有更多的升级可以添加更多的条件
 
@@ -216,6 +217,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         // 创建新表
         createTables(db);
     }
+
+    private void upgradeToVersion11(SQLiteDatabase db) {
+        // 添加新列到现有的用户表
+        db.execSQL("ALTER TABLE " + TABLE_USER + " ADD COLUMN " + COLUMN_IS_DELETE + " INTEGER");
+
+    }
+
     private void dropTables(SQLiteDatabase db) {
         // 删除所有表
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_USER);

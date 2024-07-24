@@ -63,21 +63,34 @@ public class LoginActivity extends AppCompatActivity {
                 if (username.isEmpty() || password.isEmpty()) {
                     Toast.makeText(LoginActivity.this, "请输入账号密码", Toast.LENGTH_SHORT).show();
                 } else {
-                    if (userDAO.validateUser(username, password)) {
+                    if(userDAO.checkUserIsDelete(username)){
+                        Toast.makeText(LoginActivity.this, "用户已被管理员拉黑或则注销", Toast.LENGTH_SHORT).show();
+                    }else{
+                        if (userDAO.validateUser(username, password)) {
                         //对于用户登录的会话的id记录下来
                         String userId = userDAO.getUserIdByUsername(username);
 
                         // 保存用户ID到SharedPreferences
                         sessionManager.loginUser(userId);
-
-                        // 跳转到主界面
-                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                        startActivity(intent);
-                        Toast.makeText(LoginActivity.this, "登录成功", Toast.LENGTH_SHORT).show();
+                        boolean isAdmin = userDAO.checkIsAdmin(username);
+                        if(userDAO.checkIsAdmin(username)){
+                            // 跳转到管理员界面
+                            Intent intent = new Intent(LoginActivity.this, AdminActivity.class);
+                            startActivity(intent);
+//                            Toast.makeText(LoginActivity.this, "欢迎来到管理员界面", Toast.LENGTH_SHORT).show();
+                        }else{
+                            // 跳转到主界面
+                            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                            startActivity(intent);
+                            Toast.makeText(LoginActivity.this, "登录成功", Toast.LENGTH_SHORT).show();
+                        }
                         finish(); // 关闭登录活动
                     } else {
-                        Toast.makeText(LoginActivity.this, "用户密码错误", Toast.LENGTH_SHORT).show();
-                    }
+
+                            Toast.makeText(LoginActivity.this, "用户密码错误", Toast.LENGTH_SHORT).show();
+
+
+                    }}
                 }
             }
         });

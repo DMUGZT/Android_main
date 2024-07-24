@@ -44,8 +44,6 @@ dependencies {
 
     // 添加 MPAndroidChart 依赖
     implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
-    implementation("com.chauthai.swipereveallayout:swipe-reveal-layout:1.4.1")
-    implementation ("it.xabaras.android:recyclerview-swipedecorator:1.2.3")
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)

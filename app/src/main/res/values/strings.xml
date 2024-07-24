@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">Test</string>
-<<<<<<< HEAD
+
     <string name="title_activity_admin">AdminActivity</string>
-=======
+
     <string-array name="months_array">
         <item>1月</item>
         <item>2月</item>
@@ -31,5 +31,5 @@
         <item>2028年</item>
         <item>2029年</item>
     </string-array>
->>>>>>> origin
+
 </resources>

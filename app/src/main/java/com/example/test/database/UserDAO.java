@@ -23,6 +23,9 @@ public class UserDAO {
         ContentValues values = new ContentValues();
         values.put(DatabaseHelper.COLUMN_USERNAME, username);
         values.put(DatabaseHelper.COLUMN_PASSWORD, password);
+        values.put(DatabaseHelper.COLUMN_NICKNAME, username);
+        values.put(DatabaseHelper.COLUMN_GENDER,"保密");
+        values.put(DatabaseHelper.COLUMN_PERMISSION,0);
         return database.insert(DatabaseHelper.TABLE_USER, null, values);
     }
 

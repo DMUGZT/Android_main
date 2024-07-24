@@ -60,41 +60,30 @@
                     android:layout_alignParentRight="true"
                     android:src="@drawable/ic_arrow_forward" />
             </RelativeLayout>
-            
-
-            <LinearLayout
-                android:id="@+id/account_gender"
+            <RelativeLayout
+                android:id="@+id/other"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:padding="16dp"
                 android:layout_marginTop="10dp"
-                >
+                android:padding="16dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="16dp"
-                    android:text="性别"
-                    android:textSize="16sp" />
-
-                <TextView
-                    android:id="@+id/gender"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="16dp"
-                    android:layout_weight="1"
-                    android:text="保密"
+                    android:text="其他"
                     android:textSize="16sp" />
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:contentDescription="Arrow"
+                    android:layout_alignParentRight="true"
                     android:src="@drawable/ic_arrow_forward" />
-            </LinearLayout>
+            </RelativeLayout>
+
 
             <!-- Divider -->
             <View

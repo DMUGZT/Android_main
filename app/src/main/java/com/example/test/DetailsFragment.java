@@ -62,6 +62,7 @@ public class DetailsFragment extends Fragment {
 
         return view;
     }
+
     public void onResume() {
         super.onResume();
         loadData();

@@ -96,7 +96,7 @@ public class DetailsFragment extends Fragment {
     @SuppressLint("DefaultLocale")
     private void setupYearSpinner() {
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(),
-                R.array.years_array, android.R.layout.simple_spinner_item);
+                R.array.years_array,  R.layout.spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         int startYear = 2018; // years_array数组的起始年份
         yearSpinner.setAdapter(adapter);

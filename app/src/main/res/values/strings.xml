@@ -14,4 +14,18 @@
         <item>11月</item>
         <item>12月</item>
     </string-array>
+    <string-array name="years_array">
+        <item>2018年</item>
+        <item>2019年</item>
+        <item>2020年</item>
+        <item>2021年</item>
+        <item>2022年</item>
+        <item>2023年</item>
+        <item>2024年</item>
+        <item>2025年</item>
+        <item>2026年</item>
+        <item>2027年</item>
+        <item>2028年</item>
+        <item>2029年</item>
+    </string-array>
 </resources>

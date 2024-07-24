@@ -5,7 +5,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.widget.Toast;
 
 public class IncomeDAO {
     private SQLiteDatabase database;
@@ -73,6 +72,19 @@ public class IncomeDAO {
     public Cursor getIncomeByMonth(String userId, String month) {
         String query = "SELECT * FROM income WHERE user_id = ? AND date LIKE ?";
         Cursor cursor = database.rawQuery(query, new String[]{userId, month + '%'});
+        return cursor;
+    }
+    public Cursor getIncomeByYear(String userId, String year) {
+        String query = "SELECT * FROM income WHERE user_id = ? AND date LIKE ?";
+        Cursor cursor = database.rawQuery(query, new String[]{userId, year + '%'});
+        return cursor;
+    }
+    public Cursor getIncomeByYearAndMonth(String userId, String year, String month) {
+        // 构建查询字符串，格式为 "YYYY-M%"
+        String queryDate = year + "-" + month + "%";
+
+        String query = "SELECT * FROM income WHERE user_id = ? AND date LIKE ?";
+        Cursor cursor = database.rawQuery(query, new String[]{userId, queryDate});
         return cursor;
     }
 

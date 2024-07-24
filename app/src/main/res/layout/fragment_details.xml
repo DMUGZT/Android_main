@@ -49,11 +49,11 @@
                 android:layout_weight="1"
                 android:orientation="vertical">
 
-                <TextView
+                <Spinner
+                    android:id="@+id/year_spinner"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="2024年"
-                    android:textSize="20sp" />
+                    />
 
                 <Spinner
                     android:id="@+id/month_spinner"

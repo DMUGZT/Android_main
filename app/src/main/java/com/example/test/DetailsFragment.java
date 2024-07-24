@@ -10,6 +10,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -34,8 +35,10 @@ public class DetailsFragment extends Fragment {
     private TextView incomeTextView;
     private TextView paymentTextView;
     private Spinner monthSpinner;
+    private Spinner yearSpinner;
 
     private String selectedMonth ;
+    private String selectedYear ;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,19 +51,20 @@ public class DetailsFragment extends Fragment {
         incomeTextView = view.findViewById(R.id.income_month);
         paymentTextView = view.findViewById(R.id.payment);
         monthSpinner = view.findViewById(R.id.month_spinner);
+        yearSpinner = view.findViewById(R.id.year_spinner);
 
         transactionList = new ArrayList<>();
         adapter = new Detail_TransactionAdapter(transactionList);
         recyclerView.setAdapter(adapter);
 
         setupMonthSpinner();
+        setupYearSpinner();
 
         return view;
     }
     public void onResume() {
         super.onResume();
         loadData();
-        // 设置 UI 元素或加载数据
     }
 
     @SuppressLint("DefaultLocale")
@@ -70,19 +74,44 @@ public class DetailsFragment extends Fragment {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         monthSpinner.setAdapter(adapter);
-
-        // Initialize selectedMonth with the current month
         Calendar calendar = Calendar.getInstance();
         int currentMonth = calendar.get(Calendar.MONTH); // 0-indexed
-        selectedMonth = String.format("%d月", currentMonth + 1); // 1-indexed
+        selectedMonth = String.format("%d", currentMonth + 1); // 1-indexed
 
-        // Set the spinner to the current month
         monthSpinner.setSelection(currentMonth);
 
         monthSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                selectedMonth = String.format("%d月", position + 1); // 1-indexed
+                selectedMonth = String.format("%d", position + 1); // 1-indexed
+                loadData();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // Do nothing
+            }
+        });
+    }
+    @SuppressLint("DefaultLocale")
+    private void setupYearSpinner() {
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(),
+                R.array.years_array, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        int startYear = 2018; // years_array数组的起始年份
+        yearSpinner.setAdapter(adapter);
+        Calendar calendar = Calendar.getInstance();
+        int currentYear = calendar.get(Calendar.YEAR);
+        int currentYearIndex = currentYear - startYear;
+        if (currentYearIndex >= 0 && currentYearIndex < adapter.getCount()) {
+            yearSpinner.setSelection(currentYearIndex);
+        } else {
+            yearSpinner.setSelection(0); // 如果当前年份不在范围内，默认选择第一个元素
+        }
+        yearSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                selectedYear = String.format("%d", position + startYear);
                 loadData();
             }
 
@@ -94,7 +123,7 @@ public class DetailsFragment extends Fragment {
     }
     private void loadData() {
         String userId = sessionManager.getUserId();
-        Cursor cursor = incomeDAO.getIncomeByMonth(userId, selectedMonth);
+        Cursor cursor = incomeDAO.getIncomeByYearAndMonth(userId, selectedYear,selectedMonth);
 
         transactionList.clear();
         incomeTotal = 0.0;

@@ -38,10 +38,16 @@
 
         <Button
             android:id="@+id/btn_date"
-            android:layout_width="wrap_content"
+            android:layout_width="134dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="选择日期" />
+            android:paddingRight="-30dp"
+            android:text="选择日期" ></Button>
+        <TextView
+            android:layout_width="15dp"
+            android:layout_height="wrap_content"
+            android:text="\u25BC"
+            ></TextView>
 
     </LinearLayout>
 

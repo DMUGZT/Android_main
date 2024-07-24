@@ -147,14 +147,18 @@ public class DetailsFragment extends Fragment {
         for (Detail_Transaction transaction : transactionList) {
             if ("入账".equals(transaction.getDescription())) {
                 incomeTotal += transaction.getAmount();
+
             } else if ("支出".equals(transaction.getDescription())) {
                 paymentTotal += transaction.getAmount();
+
             }
         }
 
         incomeTextView.setText(String.format("%.2f", incomeTotal));
         paymentTextView.setText(String.format("%.2f", paymentTotal));
         adapter.notifyDataSetChanged();
+
+
     }
 
     public void refreshData() {

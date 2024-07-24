@@ -114,7 +114,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private void createTables(SQLiteDatabase db) {
 
         // 创建用户表
-        // 创建用户表
         String createUserTable = "CREATE TABLE " + TABLE_USER + " (" +
                 COLUMN_USER_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 COLUMN_USERNAME + " TEXT, " +

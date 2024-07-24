@@ -16,6 +16,7 @@
             android:id="@+id/btn_expense"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:text="支出"
             />
 
@@ -23,21 +24,25 @@
             android:id="@+id/btn_income"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:text="入账"
-            android:layout_marginStart="10dp" />
+             />
 
         <Button
             android:id="@+id/btn_ignore"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:text="不计入收支"
-            android:layout_marginStart="10dp" />
+             />
 
-        <Spinner
-            android:id="@+id/spinner_date"
+        <Button
+            android:id="@+id/btn_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"/>
+            android:layout_weight="1"
+            android:text="选择日期" />
+
     </LinearLayout>
 
 

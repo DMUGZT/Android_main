@@ -1,21 +1,23 @@
 package com.example.test;
 
+import android.annotation.SuppressLint;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.LinearLayout;
 import android.widget.Spinner;
-import android.widget.Toast;
+
 
 import androidx.fragment.app.Fragment;
 
+import com.example.test.database.IncomeDAO;
+import com.example.test.utils.UserSessionManager;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.charts.PieChart;
-import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
@@ -65,6 +67,12 @@ public class ChartFragment extends Fragment {
     private PieData pieData_expend;
     private PieData pieData_incomeAndExpend;
 
+    //数据库
+    private IncomeDAO incomeDAO;
+    private UserSessionManager sessionManager;
+    private String yearStr="2024";
+    private String monthStr="7";
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_chart, container, false);
@@ -73,6 +81,10 @@ public class ChartFragment extends Fragment {
         lineChart = view.findViewById(R.id.lineChart);
         barChart = view.findViewById(R.id.barChart);
         pieChart = view.findViewById(R.id.pieChart);
+
+        //数据库
+        incomeDAO = new IncomeDAO(getContext());
+        sessionManager = new UserSessionManager(getContext());
 
         //初始化图表数据
         Init();
@@ -135,10 +147,15 @@ public class ChartFragment extends Fragment {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        Init();
+    }
+
+    @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
     }
-
     //更新图表
     private void UpdateChart(){
 
@@ -189,13 +206,13 @@ public class ChartFragment extends Fragment {
                 pieChart.setVisibility(View.VISIBLE);
                 switch (currentType){
                     case Income:
-                        pieChart.setData(pieData_income);
-                        pieChart.getDescription().setText("收入分析图");
-                        break;
+//                        pieChart.setData(pieData_income);
+//                        pieChart.getDescription().setText("收入分析图");
+                        //break;
                     case Expend:
-                        pieChart.setData(pieData_expend);
-                        pieChart.getDescription().setText("支出分析图");
-                        break;
+//                        pieChart.setData(pieData_expend);
+//                        pieChart.getDescription().setText("支出分析图");
+                        //break;
                     case IncomeAndExpend:
                         pieChart.setData(pieData_incomeAndExpend);
                         pieChart.getDescription().setText("收支分析图");
@@ -207,102 +224,173 @@ public class ChartFragment extends Fragment {
     }
     //初始化图表
     private void Init(){
-        //折线图
-        {
-            //收入
-            List<Entry> lineEntriesIncome = new ArrayList<>();
-            //todo 添加数据
-            lineEntriesIncome.add(new Entry(1f, 2f));
 
+        int dayNum =31;
+
+        //折线图数据
+        List<Entry> lineEntriesIncome = new ArrayList<>();
+        for(int i=0;i<dayNum;i++)lineEntriesIncome.add(new Entry(i+1,0f));
+        List<Entry> lineEntriesExpend = new ArrayList<>();
+        for(int i=0;i<dayNum;i++)lineEntriesExpend.add(new Entry(i+1,0f));
+        List<Entry> lineEntriesIncomeAndExpend = new ArrayList<>();
+        for(int i=0;i<dayNum;i++)lineEntriesIncomeAndExpend.add(new Entry(i+1,0f));
+        //条形图数据
+        List<BarEntry> barEntriesIncome = new ArrayList<>();
+        for(int i=0;i<dayNum;i++)barEntriesIncome.add(new BarEntry(i+1,0f));
+        List<BarEntry> barEntriesExpend = new ArrayList<>();
+        for(int i=0;i<dayNum;i++)barEntriesExpend.add(new BarEntry(i+1,0f));
+        List<BarEntry> barEntriesIncomeAndExpend = new ArrayList<>();
+        for(int i=0;i<dayNum;i++)barEntriesIncomeAndExpend.add(new BarEntry(i+1,0f));
+        //饼图数据
+//        List<PieEntry> pieEntriesIncome = new ArrayList<>();
+//        for(int i=0;i<dayNum;i++)pieEntriesIncome.add(new PieEntry(0f));
+//        List<PieEntry> pieEntriesExpend = new ArrayList<>();
+//        for(int i=0;i<dayNum;i++)pieEntriesExpend.add(new PieEntry(0f));
+        List<PieEntry> pieEntriesIncomeAndExpend = new ArrayList<>();
+        for(int i=0;i<dayNum;i++)pieEntriesIncomeAndExpend.add(new PieEntry(0f));
+
+        //读取数据库
+        Cursor cursor = incomeDAO.getIncomeByYearAndMonth(sessionManager.getUserId(),yearStr,monthStr);
+
+        String[] strs;
+        int day;
+        Entry entry;
+        BarEntry barEntry;
+        PieEntry pieEntry;
+
+        if (cursor.moveToFirst()) {
+            do {
+                @SuppressLint("Range") String date = cursor.getString(cursor.getColumnIndex("date"));
+                @SuppressLint("Range") double amount = cursor.getDouble(cursor.getColumnIndex("amount"));
+                @SuppressLint("Range") String description = cursor.getString(cursor.getColumnIndex("description"));
+
+                strs = date.split("-");
+                if(strs.length>0)
+                    day = Integer.parseInt(strs[strs.length-1]);
+                else
+                    day = 0;
+
+                if(day !=0){
+                    if(description.equals("入账"))
+                    {
+                        //折线图
+                        entry = lineEntriesIncome.get(day-1);
+                        entry.setY(entry.getY()+(float) amount);
+                        entry = lineEntriesIncomeAndExpend.get(day-1);
+                        entry.setY(entry.getY()+(float) amount);
+                        //条形图
+                        barEntry = barEntriesIncome.get(day-1);
+                        barEntry.setY(barEntry.getY()+(float) amount);
+                        barEntry = barEntriesIncomeAndExpend.get(day-1);
+                        barEntry.setY(barEntry.getY()+(float) amount);
+                        //饼图
+//                        pieEntry = pieEntriesIncome.get(day-1);
+//                        pieEntry.setY(pieEntry.getY()+(float) amount);
+                        pieEntry = pieEntriesIncomeAndExpend.get(day-1);
+                        pieEntry.setY(pieEntry.getY()+(float) amount);
+                    }
+                    else if(description.equals("支出"))
+                    {
+                        //折线图
+                        entry = lineEntriesExpend.get(day-1);
+                        entry.setY(entry.getY()+(float) amount);
+                        entry = lineEntriesIncomeAndExpend.get(day-1);
+                        entry.setY(entry.getY()-(float) amount);
+                        //条形图
+                        barEntry = barEntriesExpend.get(day-1);
+                        barEntry.setY(barEntry.getY()+(float) amount);
+                        barEntry = barEntriesIncomeAndExpend.get(day-1);
+                        barEntry.setY(barEntry.getY()-(float) amount);
+                        //饼图
+//                        pieEntry = pieEntriesExpend.get(day-1);
+//                        pieEntry.setY(pieEntry.getY()+(float) amount);
+                        pieEntry = pieEntriesIncomeAndExpend.get(day-1);
+                        pieEntry.setY(pieEntry.getY()-(float) amount);
+                    }
+                }
+
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+
+        //更新饼图
+        float y;
+        int i=0;
+        int[] colors=new int[dayNum];
+        for (PieEntry pie_entry : pieEntriesIncomeAndExpend){
+            y = pie_entry.getY();
+            if(y >= 0f){
+                colors[i++]=Color.BLUE;
+            }else{
+                pie_entry.setY(-y);
+                colors[i++]=Color.RED;
+            }
+        }
+
+        //设置图表数据
+        {
+            //折线图
+            //收入
             LineDataSet lineDataSet_incmoe = new LineDataSet(lineEntriesIncome, "收入数据");
-            lineDataSet_incmoe.setColor(Color.BLUE);
+            lineDataSet_incmoe.setColor(Color.GREEN);
             lineDataSet_incmoe.setValueTextColor(Color.BLACK);
 
             //支出
-            List<Entry> lineEntriesExpend = new ArrayList<>();
-            //todo 添加数据
-            lineEntriesExpend.add(new Entry(1f, 2f));
-
             LineDataSet lineDataSet_expend = new LineDataSet(lineEntriesExpend, "支出数据");
-            lineDataSet_expend.setColor(Color.BLUE);
+            lineDataSet_expend.setColor(Color.RED);
             lineDataSet_expend.setValueTextColor(Color.BLACK);
 
             //收支平衡
-            List<Entry> lineEntriesIncomeAndExpend = new ArrayList<>();
-            //todo 添加数据
-            lineEntriesIncomeAndExpend.add(new Entry(1f, 2f));
-
             LineDataSet lineDataSet_incomeAndExpend = new LineDataSet(lineEntriesIncomeAndExpend, "收支数据");
-            lineDataSet_incomeAndExpend.setColor(Color.BLUE);
+            lineDataSet_incomeAndExpend.setColor(Color.YELLOW);
             lineDataSet_incomeAndExpend.setValueTextColor(Color.BLACK);
 
-            lineData_income = new LineData(lineDataSet_incmoe);
-            lineData_expend = new LineData(lineDataSet_expend);
-            lineData_incomeAndExpend = new LineData(lineDataSet_incomeAndExpend);
 
-        }
-        //条形图
-        {
+            //条形图
             //收入
-            List<BarEntry> barEntriesIncome = new ArrayList<>();
-            //todo 添加数据
-
-
             BarDataSet barDataSet_income = new BarDataSet(barEntriesIncome, "收入数据");
-            barDataSet_income.setColor(Color.BLUE);
+            barDataSet_income.setColor(Color.GREEN);
             barDataSet_income.setValueTextColor(Color.BLACK);
 
             //支出
-            List<BarEntry> barEntriesExpend = new ArrayList<>();
-            //todo 添加数据
-
-
             BarDataSet barDataSet_expend = new BarDataSet(barEntriesExpend, "支出数据");
-            barDataSet_expend.setColor(Color.BLUE);
+            barDataSet_expend.setColor(Color.RED);
             barDataSet_expend.setValueTextColor(Color.BLACK);
 
             //收支
-            List<BarEntry> barEntriesIncomeAndExpend = new ArrayList<>();
-            //todo 添加数据
-
-
-            BarDataSet barDataSet_incomeAndExpend = new BarDataSet(barEntriesIncomeAndExpend, "收支平衡");
-            barDataSet_incomeAndExpend.setColor(Color.BLUE);
+            BarDataSet barDataSet_incomeAndExpend = new BarDataSet(barEntriesIncomeAndExpend, "收支数据");
+            barDataSet_incomeAndExpend.setColor(Color.YELLOW);
             barDataSet_incomeAndExpend.setValueTextColor(Color.BLACK);
 
+
+            //饼图
+//            //收入
+//            PieDataSet pieDataSet_income = new PieDataSet(pieEntriesIncome, "收入数据");
+//            pieDataSet_income.setColor(Color.GREEN);
+//            pieDataSet_income.setValueTextColor(Color.BLACK);
+//
+//            //支出
+//            PieDataSet pieDataSet_expend = new PieDataSet(pieEntriesExpend, "支出数据");
+//            pieDataSet_expend.setColor(Color.RED);
+//            pieDataSet_expend.setValueTextColor(Color.BLACK);
+
+            //收支
+            PieDataSet pieDataSet_incomeAndExpend = new PieDataSet(pieEntriesIncomeAndExpend, "收支数据");
+            pieDataSet_incomeAndExpend.setColors(colors);
+
+            //折线图
+            lineData_income = new LineData(lineDataSet_incmoe);
+            lineData_expend = new LineData(lineDataSet_expend);
+            lineData_incomeAndExpend = new LineData(lineDataSet_incomeAndExpend);
+            //条形图
             barData_income = new BarData(barDataSet_income);
             barData_expend = new BarData(barDataSet_expend);
             barData_incomeAndExpend = new BarData(barDataSet_incomeAndExpend);
-        }
-        //饼图
-        {
-            //收入
-            List<PieEntry> pieEntriesIncome = new ArrayList<>();
-            //todo 添加数据
-
-            PieDataSet pieDataSet_income = new PieDataSet(pieEntriesIncome, "收入数据");
-            pieDataSet_income.setColor(Color.BLUE);
-            pieDataSet_income.setValueTextColor(Color.BLACK);
-
-            //支出
-            List<PieEntry> pieEntriesExpend = new ArrayList<>();
-            //todo 添加数据
-
-            PieDataSet pieDataSet_expend = new PieDataSet(pieEntriesExpend, "支出数据");
-            pieDataSet_expend.setColor(Color.BLUE);
-            pieDataSet_expend.setValueTextColor(Color.BLACK);
-
-            //收支
-            List<PieEntry> pieEntriesIncomeAndExpend = new ArrayList<>();
-            //todo 添加数据
-
-            PieDataSet pieDataSet_incomeAndExpend = new PieDataSet(pieEntriesIncomeAndExpend, "收支数据");
-            pieDataSet_incomeAndExpend.setColor(Color.BLUE);
-            pieDataSet_incomeAndExpend.setValueTextColor(Color.BLACK);
-
-            pieData_income = new PieData(pieDataSet_income);
-            pieData_expend = new PieData(pieDataSet_expend);
+            //饼图
+//            pieData_income = new PieData(pieDataSet_income);
+//            pieData_expend = new PieData(pieDataSet_expend);
             pieData_incomeAndExpend = new PieData(pieDataSet_incomeAndExpend);
         }
+
     }
 }

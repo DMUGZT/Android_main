@@ -23,8 +23,11 @@ import com.example.test.utils.UserSessionManager;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
+
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class RecordActivity extends BottomSheetDialogFragment {
@@ -82,6 +85,8 @@ public class RecordActivity extends BottomSheetDialogFragment {
         Button btnClothing = view.findViewById(R.id.btn_clothing);
         Button btnShopping = view.findViewById(R.id.btn_shopping);
         // Add more buttons for other categories
+
+        btnDate.setText(new SimpleDateFormat("yyyy-M-dd").format(new Date()));
 
         // Setup Date Spinner
         List<String> dates = new ArrayList<>();
@@ -197,7 +202,7 @@ public class RecordActivity extends BottomSheetDialogFragment {
                 if (dateStr.equals("选择日期")){
                     Calendar calendar = Calendar.getInstance();
                     int currentYear = calendar.get(Calendar.YEAR);
-                    int currentMonth = calendar.get(Calendar.MONTH);
+                    int currentMonth = calendar.get(Calendar.MONTH)+1;
                     int currentDay = calendar.get(Calendar.DAY_OF_MONTH);
                     dateStr = currentYear+"-"+currentMonth+"-"+currentDay;
                 }
@@ -207,16 +212,16 @@ public class RecordActivity extends BottomSheetDialogFragment {
                 String description = selectedCategory;
                 int cashType = 1;
 
-//                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-//                builder.setMessage(message)
-//                        .setTitle("提示")
-//                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-//                            public void onClick(DialogInterface dialog, int id) {
-//                                // Do nothing
-//                            }
-//                        });
-//                AlertDialog dialog = builder.create();
-//                dialog.show();
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setMessage(message)
+                        .setTitle("提示")
+                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                // Do nothing
+                            }
+                        });
+                AlertDialog dialog = builder.create();
+                dialog.show();
 
                 String userId = sessionManager.getUserId();
                 long newRowId = incomeDAO.addIncome(type, dateStr, amount, description, cashType, Integer.parseInt(userId));
@@ -224,9 +229,10 @@ public class RecordActivity extends BottomSheetDialogFragment {
 //                    Toast.makeText(getActivity(), "数据插入成功", Toast.LENGTH_SHORT).show();
                     FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                     DetailsFragment df = (DetailsFragment) fragmentManager.findFragmentByTag("details_fragment_tag");
-
+                    BillsFragment bf = (BillsFragment) fragmentManager.findFragmentByTag("bills_fragment_tag");
                     if (df != null) {
                         df.refreshData();
+                        bf.refreshData();
                     }
                 } else {
 //                    Toast.makeText(getActivity(), "数据插入失败", Toast.LENGTH_SHORT).show();

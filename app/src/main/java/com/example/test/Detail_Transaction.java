@@ -15,10 +15,11 @@ public class Detail_Transaction {
         this.description = description;
         this.cashType = cashType;
     }
-    // Getters and Setters
-
     public String getDate() {
         return date;
+    }
+    public int getId() {
+        return id;
     }
 
     public String getDescription() {

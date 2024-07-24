@@ -61,7 +61,7 @@
         android:layout_width="80dp"
         android:layout_height="72dp"
         android:background="#f00"
-        android:text="删除"
+        android:text="冻结"
         android:textColor="#fff" />
 
 </LinearLayout>

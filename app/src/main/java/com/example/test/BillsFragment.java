@@ -1,149 +1,150 @@
-// BillsFragment.java
-package com.example.test;
+    // BillsFragment.java
+    package com.example.test;
 
-import android.annotation.SuppressLint;
-import android.database.Cursor;
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.Spinner;
-import android.widget.TextView;
+    import android.annotation.SuppressLint;
+    import android.database.Cursor;
+    import android.os.Bundle;
+    import android.view.LayoutInflater;
+    import android.view.View;
+    import android.view.ViewGroup;
+    import android.widget.AdapterView;
+    import android.widget.ArrayAdapter;
+    import android.widget.Button;
+    import android.widget.Spinner;
+    import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+    import androidx.annotation.NonNull;
+    import androidx.annotation.Nullable;
+    import androidx.fragment.app.Fragment;
+    import androidx.recyclerview.widget.LinearLayoutManager;
+    import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.test.database.DatabaseHelper;
-import com.example.test.database.IncomeDAO;
-import com.example.test.utils.UserSessionManager;
+    import com.example.test.database.DatabaseHelper;
+    import com.example.test.database.IncomeDAO;
+    import com.example.test.utils.UserSessionManager;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
+    import java.util.ArrayList;
+    import java.util.Calendar;
+    import java.util.List;
 
-public class BillsFragment extends Fragment {
+    public class BillsFragment extends Fragment {
 
-    private Button btnMonthlyReport, btnYearlyReport;
-    private TextView tvBalance, tvYearEndBalance, tvYearlyIncome, tvYearlyIncomeM, tvYearlyExpense, tvYearlyExpenseM,tvMonth,tvMonthIncome,tvMonthExpense,tvMonthEndBalance;
-    private RecyclerView recyclerView;
-    private MonthlySummaryAdapter monthlyAdapter;
-    private YearlySummaryAdapter yearlyAdapter;
-    private List<MonthlySummary> monthlySummaries;
-    private List<YearlySummary> yearlySummaries;
-    private Spinner yearSpinner;
-    private String selectedYear;
-    private UserSessionManager sessionManager;
-    private IncomeDAO incomeDAO;
-    private double Income;
-    private double Expense;
-    private double Balance ;
+        private Button btnMonthlyReport, btnYearlyReport;
+        private TextView tvBalance, tvYearEndBalance, tvYearlyIncome, tvYearlyIncomeM, tvYearlyExpense, tvYearlyExpenseM,tvMonth,tvMonthIncome,tvMonthExpense,tvMonthEndBalance;
+        private RecyclerView recyclerView;
+        private MonthlySummaryAdapter monthlyAdapter;
+        private YearlySummaryAdapter yearlyAdapter;
+        private List<MonthlySummary> monthlySummaries;
+        private List<YearlySummary> yearlySummaries;
+        private Spinner yearSpinner;
+        private String selectedYear;
+        private UserSessionManager sessionManager;
+        private IncomeDAO incomeDAO;
+        private double Income;
+        private double Expense;
+        private double Balance ;
 
-    @Nullable
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_bills, container, false);
+        @Nullable
+        @Override
+        public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+            View view = inflater.inflate(R.layout.fragment_bills, container, false);
 
-        btnMonthlyReport = view.findViewById(R.id.btnMonthlyReport);
-        btnYearlyReport = view.findViewById(R.id.btnYearlyReport);
-        tvYearEndBalance = view.findViewById(R.id.tvYearEndBalance);
-        tvYearlyIncome = view.findViewById(R.id.tvYearlyIncome);
-        tvYearlyExpense = view.findViewById(R.id.tvYearlyExpense);
-        recyclerView = view.findViewById(R.id.recyclerView);
-        tvBalance = view.findViewById(R.id.tvBalance);
-        yearSpinner = view.findViewById(R.id.year_spinner);
-        tvMonth = view.findViewById(R.id.tvMonth);
-        tvYearlyExpenseM = view.findViewById(R.id.tvYearlyExpenseM);
-        tvYearlyIncomeM = view.findViewById(R.id.tvYearlyIncomeM);
-        tvYearEndBalance = view.findViewById(R.id.tvYearEndBalance);
-        tvMonthEndBalance = view.findViewById(R.id.tvMonthEndBalance);
-        tvMonthExpense = view.findViewById(R.id.tvMonthExpense);
-        tvMonthIncome = view.findViewById(R.id.tvMonthIncome);
-        sessionManager = new UserSessionManager(getContext());
-        incomeDAO = new IncomeDAO(getContext());
+            btnMonthlyReport = view.findViewById(R.id.btnMonthlyReport);
+            btnYearlyReport = view.findViewById(R.id.btnYearlyReport);
+            tvYearEndBalance = view.findViewById(R.id.tvYearEndBalance);
+            tvYearlyIncome = view.findViewById(R.id.tvYearlyIncome);
+            tvYearlyExpense = view.findViewById(R.id.tvYearlyExpense);
+            recyclerView = view.findViewById(R.id.recyclerView);
+            tvBalance = view.findViewById(R.id.tvBalance);
+            yearSpinner = view.findViewById(R.id.year_spinner);
+            tvMonth = view.findViewById(R.id.tvMonth);
+            tvYearlyExpenseM = view.findViewById(R.id.tvYearlyExpenseM);
+            tvYearlyIncomeM = view.findViewById(R.id.tvYearlyIncomeM);
+            tvYearEndBalance = view.findViewById(R.id.tvYearEndBalance);
+            tvMonthEndBalance = view.findViewById(R.id.tvMonthEndBalance);
+            tvMonthExpense = view.findViewById(R.id.tvMonthExpense);
+            tvMonthIncome = view.findViewById(R.id.tvMonthIncome);
+            sessionManager = new UserSessionManager(getContext());
+            incomeDAO = new IncomeDAO(getContext());
 
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+            recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        // 初始化数据
-        monthlySummaries = new ArrayList<>();
-        yearlySummaries = new ArrayList<>();
+            // 初始化数据
+            monthlySummaries = new ArrayList<>();
+            yearlySummaries = new ArrayList<>();
 
-        // 设置月账单适配器
-        monthlyAdapter = new MonthlySummaryAdapter(monthlySummaries);
-        yearlyAdapter = new YearlySummaryAdapter(yearlySummaries);
-        recyclerView.setAdapter(monthlyAdapter);
-
-        btnMonthlyReport.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                updateReportView(true);
-            }
-        });
-
-        btnYearlyReport.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                updateReportView(false);
-            }
-        });
-
-        setupYearSpinner();
-        return view;
-    }
-    public void onResume() {
-        super.onResume();
-        loadData(true);
-
-    }
-    private void updateReportView(boolean isMonthly) {
-        if (isMonthly) {
+            // 设置月账单适配器
+            monthlyAdapter = new MonthlySummaryAdapter(monthlySummaries);
+            yearlyAdapter = new YearlySummaryAdapter(yearlySummaries);
             recyclerView.setAdapter(monthlyAdapter);
-            // 更新上方的总收入、总支出、总结余
-            tvBalance.setText("年结余");
-            tvYearEndBalance.setText(String.format("%.2f", Balance));
-            tvYearlyIncome.setText("年收入");
-            tvYearlyIncomeM.setText(String.format("%.2f",Income));
-            tvYearlyExpense.setText("年支出");
-            tvYearlyExpenseM.setText(String.format("%.2f",Income - Balance));
-            tvMonth.setText("月份");
-            tvMonthIncome.setText("月收入");
-            tvMonthExpense.setText("月支出");
-            tvMonthEndBalance.setText("月结余");
-            // 设置按钮背景色
-            btnMonthlyReport.setBackgroundTintList(getResources().getColorStateList(R.color.pink));
-            btnYearlyReport.setBackgroundTintList(getResources().getColorStateList(R.color.white));
 
-            // 显示 Spinner
-            yearSpinner.setVisibility(View.VISIBLE);
-        } else {
-            recyclerView.setAdapter(yearlyAdapter);
-            // 更新上方的总收入、总支出、总结余
-            tvBalance.setText("总结余");
-            tvYearEndBalance.setText(String.format("%.2f", Balance));
-            tvYearlyIncome.setText("总收入");
-            tvYearlyIncomeM.setText(String.format("%.2f",Income));
-            tvYearlyExpense.setText("总支出");
-            tvYearlyExpenseM.setText(String.format("%.2f",Income - Balance));
-            tvMonth.setText("年份");
-            tvMonthIncome.setText("年收入");
-            tvMonthExpense.setText("年支出");
-            tvMonthEndBalance.setText("年结余");
+            btnMonthlyReport.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    updateReportView(true);
+                }
+            });
 
-            btnMonthlyReport.setBackgroundTintList(getResources().getColorStateList(R.color.white));
-            btnYearlyReport.setBackgroundTintList(getResources().getColorStateList(R.color.pink));
+            btnYearlyReport.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    updateReportView(false);
+                }
+            });
 
-            // 隐藏 Spinner
-            yearSpinner.setVisibility(View.INVISIBLE);
+            setupYearSpinner();
+            return view;
         }
+        public void onResume() {
+            super.onResume();
+            loadData(true);
 
-        // 加载数据
-        loadData(isMonthly);
-    }
+        }
+        private void updateReportView(boolean isMonthly) {
+            if (isMonthly) {
+                recyclerView.setAdapter(monthlyAdapter);
+                // 更新上方的总收入、总支出、总结余
+                tvBalance.setText("年结余");
+                tvYearEndBalance.setText(String.format("%.2f", Balance));
+                tvYearlyIncome.setText("年收入");
+                tvYearlyIncomeM.setText(String.format("%.2f",Income));
+                tvYearlyExpense.setText("年支出");
+                tvYearlyExpenseM.setText(String.format("%.2f",Income - Balance));
+                tvMonth.setText("月份");
+                tvMonthIncome.setText("月收入");
+                tvMonthExpense.setText("月支出");
+                tvMonthEndBalance.setText("月结余");
+                // 设置按钮背景色
+                btnMonthlyReport.setBackgroundTintList(getResources().getColorStateList(R.color.pink));
+                btnYearlyReport.setBackgroundTintList(getResources().getColorStateList(R.color.white));
+
+                // 显示 Spinner
+                yearSpinner.setVisibility(View.VISIBLE);
+            } else {
+                recyclerView.setAdapter(yearlyAdapter);
+                // 更新上方的总收入、总支出、总结余
+                tvBalance.setText("总结余");
+                tvYearEndBalance.setText(String.format("%.2f", Balance));
+                tvYearlyIncome.setText("总收入");
+                tvYearlyIncomeM.setText(String.format("%.2f",Income));
+                tvYearlyExpense.setText("总支出");
+                tvYearlyExpenseM.setText(String.format("%.2f",Income - Balance));
+                tvMonth.setText("年份");
+                tvMonthIncome.setText("年收入");
+                tvMonthExpense.setText("年支出");
+                tvMonthEndBalance.setText("年结余");
+
+                btnMonthlyReport.setBackgroundTintList(getResources().getColorStateList(R.color.white));
+                btnYearlyReport.setBackgroundTintList(getResources().getColorStateList(R.color.pink));
+
+                // 隐藏 Spinner
+                yearSpinner.setVisibility(View.INVISIBLE);
+            }
+
+
+    // 加载数据
+    loadData(isMonthly);
+        }
 
     @SuppressLint("DefaultLocale")
     private void setupYearSpinner() {
@@ -250,4 +251,4 @@ public class BillsFragment extends Fragment {
         loadData(true);
     }
 
-}
+    }

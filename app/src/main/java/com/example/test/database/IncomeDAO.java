@@ -57,6 +57,11 @@ public class IncomeDAO {
 //    public Cursor getAllIncomes() {
 //        return database.query(DatabaseHelper.TABLE_INCOME, null, null, null, null, null, DatabaseHelper.COLUMN_INCOME_DATE + " DESC");
 //    }
+    public Cursor getIncomeByYear(String userId, String year) {
+        String query = "SELECT * FROM income WHERE user_id = ? AND date LIKE ?";
+        Cursor cursor = database.rawQuery(query, new String[]{userId, year + '%'});
+        return cursor;
+    }
     public boolean DeleteById(int id){
         String whereClause = "_id = ?";
         String[] whereArgs = new String[] { String.valueOf(id) };

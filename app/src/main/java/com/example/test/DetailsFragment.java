@@ -64,6 +64,7 @@ public class DetailsFragment extends Fragment implements Detail_TransactionAdapt
         itemTouchHelper.attachToRecyclerView(recyclerView);
         return view;
     }
+
     public void onResume() {
         super.onResume();
         loadData();

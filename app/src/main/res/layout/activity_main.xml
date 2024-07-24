@@ -84,7 +84,7 @@
             android:gravity="center"
             android:background="@drawable/oval_background"
             app:layout_constraintStart_toEndOf="@+id/bills_section"
-            app:layout_constraintEnd_toStartOf="@+id/cart_section"
+            app:layout_constraintEnd_toStartOf="@+id/chart_section"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent">
 
@@ -102,7 +102,7 @@
 
         <!-- Analysis Section -->
         <LinearLayout
-            android:id="@+id/cart_section"
+            android:id="@+id/chart_section"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:orientation="vertical"
@@ -113,16 +113,17 @@
             app:layout_constraintBottom_toBottomOf="parent">
 
             <ImageView
-                android:id="@+id/cart_icon"
+                android:id="@+id/chart_icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_cart" />
+                android:src="@drawable/ic_chart" />
             <TextView
-                android:id="@+id/cart_text"
+                android:id="@+id/chart_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="分析" />
         </LinearLayout>
+
 
         <!-- My Account Section -->
         <LinearLayout
@@ -131,7 +132,7 @@
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:gravity="center"
-            app:layout_constraintStart_toEndOf="@+id/cart_section"
+            app:layout_constraintStart_toEndOf="@+id/chart_section"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent">

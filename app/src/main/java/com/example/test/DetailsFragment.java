@@ -13,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -23,7 +24,7 @@ import com.example.test.utils.UserSessionManager;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-public class DetailsFragment extends Fragment {
+public class DetailsFragment extends Fragment implements Detail_TransactionAdapter.OnItemDeletedListener {
 
     private RecyclerView recyclerView;
     private Detail_TransactionAdapter adapter;
@@ -54,12 +55,13 @@ public class DetailsFragment extends Fragment {
         yearSpinner = view.findViewById(R.id.year_spinner);
 
         transactionList = new ArrayList<>();
-        adapter = new Detail_TransactionAdapter(transactionList);
+        adapter = new Detail_TransactionAdapter(transactionList,incomeDAO,this);
         recyclerView.setAdapter(adapter);
 
         setupMonthSpinner();
         setupYearSpinner();
-
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new SwipeToDeleteCallback(adapter));
+        itemTouchHelper.attachToRecyclerView(recyclerView);
         return view;
     }
     public void onResume() {
@@ -158,6 +160,11 @@ public class DetailsFragment extends Fragment {
     }
 
     public void refreshData() {
+        loadData();
+    }
+
+    @Override
+    public void onItemDeleted() {
         loadData();
     }
 }

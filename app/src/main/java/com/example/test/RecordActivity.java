@@ -197,7 +197,7 @@ public class RecordActivity extends BottomSheetDialogFragment {
                 if (dateStr.equals("选择日期")){
                     Calendar calendar = Calendar.getInstance();
                     int currentYear = calendar.get(Calendar.YEAR);
-                    int currentMonth = calendar.get(Calendar.MONTH);
+                    int currentMonth = calendar.get(Calendar.MONTH)+1;
                     int currentDay = calendar.get(Calendar.DAY_OF_MONTH);
                     dateStr = currentYear+"-"+currentMonth+"-"+currentDay;
                 }

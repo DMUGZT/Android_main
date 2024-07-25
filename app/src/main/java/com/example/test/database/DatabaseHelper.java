@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import java.util.Arrays;
+import java.util.Random;
 
 
 public class DatabaseHelper extends SQLiteOpenHelper {
@@ -225,7 +226,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     private void upgradeToVersion12(SQLiteDatabase db) {
-        insertIncomeData();
+//        insertIncomeData();
     }
     private void dropTables(SQLiteDatabase db) {
         // 删除所有表
@@ -250,15 +251,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.beginTransaction();
         try {
             ContentValues values = new ContentValues();
-            String[] categories = {"工资", "奖金", "兼职", "投资", "餐饮", "交通", "服饰", "娱乐"};
+            String[] incomeCategories = {"工资", "奖金", "兼职", "投资"};
+            String[] expenseCategories = {"餐饮", "交通", "服饰", "娱乐"};
             String[] descriptions = {"入账", "支出"};
+            Random random = new Random();
 
             // 插入收入数据
             for (int i = 1; i <= 10; i++) {
-                for (String category : Arrays.copyOfRange(categories, 0, 4)) {
+                for (String category : incomeCategories) {
                     values.put("category", category);
-                    values.put("date", "2024-07-01");
-                    values.put("amount", 1000 + i * 100); // 示例金额
+                    values.put("date", getRandomDate(random));
+                    values.put("amount", random.nextInt(5000) + 1000); // 随机金额
                     values.put("description", descriptions[0]);
                     values.put("cash_type", 1);
                     values.put("user_id", i);
@@ -267,11 +270,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             }
 
             // 插入支出数据
-            for (int i = 1; i <= 10; i++) {
-                for (String category : Arrays.copyOfRange(categories, 4, 8)) {
+            for (int i = 1; i <= 20; i++) {
+                for (String category : expenseCategories) {
                     values.put("category", category);
-                    values.put("date", "2024-07-04");
-                    values.put("amount", 50 + i * 10); // 示例金额
+                    values.put("date", getRandomDate(random));
+                    values.put("amount", random.nextInt(1000) + 50); // 随机金额
                     values.put("description", descriptions[1]);
                     values.put("cash_type", 1);
                     values.put("user_id", i);
@@ -283,6 +286,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         } finally {
             db.endTransaction();
         }
-        db.close();
+
     }
-}
+
+    // 生成随机日期
+    private String getRandomDate(Random random) {
+        int year = 2020 + random.nextInt(5); // 随机年份 2020-2024
+        int month = 1 + random.nextInt(12); // 随机月份
+        int day = 1 + random.nextInt(28); // 随机日期（简化处理）
+        return String.format("%d-%02d-%02d", year, month, day);
+    }}

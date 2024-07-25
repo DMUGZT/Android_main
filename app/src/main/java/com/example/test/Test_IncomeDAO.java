@@ -15,12 +15,17 @@ public class Test_IncomeDAO extends AppCompatActivity  {
 //    private long testIncomeId = -1;
 //    private TextView tvResults;
 //
+DatabaseHelper dbHelper;
 //    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        dbHelper = new DatabaseHelper(this);
 
-        boolean isDeleted = this.deleteDatabase("app.db");
-        };
+        // 调用插入数据方法
+        dbHelper.insertIncomeData();}}
+
+//        boolean isDeleted = this.deleteDatabase("app.db");
+//        };
 //
 //        btnUpdate.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -83,4 +88,4 @@ public class Test_IncomeDAO extends AppCompatActivity  {
 //        super.onDestroy();
 //        incomeDAO.close();
 //    }
-}
+

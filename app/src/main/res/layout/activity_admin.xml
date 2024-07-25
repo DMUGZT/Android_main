@@ -49,7 +49,8 @@
             android:id="@+id/searchButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="查询" />
+            android:text="查询"
+            android:backgroundTint="@color/pink"/>
     </LinearLayout>
     <LinearLayout
         android:id="@+id/linear_show"

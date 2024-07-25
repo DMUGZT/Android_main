@@ -112,6 +112,6 @@
             android:layout_height="wrap_content"
             android:text="退出登录"
             android:textColor="@android:color/white"
-            android:backgroundTint="?attr/colorPrimary" />
+            android:backgroundTint="@color/pink" />
     </LinearLayout>
 </ScrollView>

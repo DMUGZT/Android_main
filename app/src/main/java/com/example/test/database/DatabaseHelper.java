@@ -6,12 +6,13 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import java.util.Arrays;
 
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "app.db";
-    private static final int DATABASE_VERSION = 11; // 增加数据库版本
+    private static final int DATABASE_VERSION = 12; // 增加数据库版本
 
 
     // 用户表
@@ -106,7 +107,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             upgradeToVersion3(db);
         }
         if (oldVersion < DATABASE_VERSION) {
-            upgradeToVersion11(db);
+            upgradeToVersion12(db);
         }
         // 如果有更多的升级可以添加更多的条件
 
@@ -223,6 +224,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     }
 
+    private void upgradeToVersion12(SQLiteDatabase db) {
+        insertIncomeData();
+    }
     private void dropTables(SQLiteDatabase db) {
         // 删除所有表
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_USER);
@@ -238,5 +242,47 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String query = "SELECT * FROM " + TABLE_INCOME + " UNION ALL SELECT * FROM " + TABLE_EXPENSE + " ORDER BY date DESC";
         return db.rawQuery(query, null);
 
+    }
+
+    // 插入收入和支出数据
+    public void insertIncomeData() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.beginTransaction();
+        try {
+            ContentValues values = new ContentValues();
+            String[] categories = {"工资", "奖金", "兼职", "投资", "餐饮", "交通", "服饰", "娱乐"};
+            String[] descriptions = {"入账", "支出"};
+
+            // 插入收入数据
+            for (int i = 1; i <= 10; i++) {
+                for (String category : Arrays.copyOfRange(categories, 0, 4)) {
+                    values.put("category", category);
+                    values.put("date", "2024-07-01");
+                    values.put("amount", 1000 + i * 100); // 示例金额
+                    values.put("description", descriptions[0]);
+                    values.put("cash_type", 1);
+                    values.put("user_id", i);
+                    db.insert("income", null, values);
+                }
+            }
+
+            // 插入支出数据
+            for (int i = 1; i <= 10; i++) {
+                for (String category : Arrays.copyOfRange(categories, 4, 8)) {
+                    values.put("category", category);
+                    values.put("date", "2024-07-04");
+                    values.put("amount", 50 + i * 10); // 示例金额
+                    values.put("description", descriptions[1]);
+                    values.put("cash_type", 1);
+                    values.put("user_id", i);
+                    db.insert("income", null, values);
+                }
+            }
+
+            db.setTransactionSuccessful();
+        } finally {
+            db.endTransaction();
+        }
+        db.close();
     }
 }

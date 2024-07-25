@@ -28,7 +28,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="本月图表分析"
+                    android:text="月度图表分析"
                     android:textSize="20sp"
                     android:textStyle="bold"
                     android:textColor="@android:color/black"
@@ -40,7 +40,20 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
-
+            <Spinner
+                android:id="@+id/spinnerYear"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:entries="@array/years_array"
+                android:minHeight="50dp" />
+            <Spinner
+                android:id="@+id/spinnerMonth"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:entries="@array/months_array"
+                android:minHeight="50dp" />
             <Spinner
                 android:id="@+id/spinnerType"
                 android:layout_width="match_parent"

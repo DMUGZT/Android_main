@@ -30,7 +30,11 @@ android {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
-    buildToolsVersion = "33.0.1"
+
+    buildToolsVersion = "35.0.0"
+
+//    buildToolsVersion = "33.0.1"
+
 
 
 }

@@ -48,6 +48,8 @@ public class ChartFragment extends Fragment {
     private E_Type currentType = E_Type.Income;
     private E_Chart currentChart = E_Chart.Line;
     //下拉框组件
+    private Spinner spinnerYear;
+    private Spinner spinnerMonth;
     private Spinner spinnerType;
     private Spinner spinnerChart;
 
@@ -88,10 +90,13 @@ public class ChartFragment extends Fragment {
 
         //初始化图表数据
         Init();
+        UpdateChart();
 
         //添加监听
         spinnerType = (Spinner) (view.findViewById(R.id.spinnerType));
         spinnerChart = (Spinner) (view.findViewById(R.id.spinnerChart));
+        spinnerYear = (Spinner) (view.findViewById(R.id.spinnerYear));
+        spinnerMonth = (Spinner) (view.findViewById(R.id.spinnerMonth));
 
         spinnerType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -134,6 +139,111 @@ public class ChartFragment extends Fragment {
                         break;
 
                 }
+                UpdateChart();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+        spinnerYear.setSelection(6);
+        spinnerYear.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                //当选择后
+                switch ((int)id){
+                    case 0:
+                        yearStr = "2018";
+                        break;
+                    case 1:
+                        yearStr = "2019";
+                        break;
+                    case 2:
+                        yearStr = "2020";
+                        break;
+                    case 3:
+                        yearStr = "2021";
+                        break;
+                    case 4:
+                        yearStr = "2022";
+                        break;
+                    case 5:
+                        yearStr = "2023";
+                        break;
+                    case 6:
+                        yearStr = "2024";
+                        break;
+                    case 7:
+                        yearStr = "2025";
+                        break;
+                    case 8:
+                        yearStr = "2026";
+                        break;
+                    case 9:
+                        yearStr = "2027";
+                        break;
+                    case 10:
+                        yearStr = "2028";
+                        break;
+                    case 11:
+                        yearStr = "2029";
+                        break;
+                }
+                Init();
+                UpdateChart();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        spinnerMonth.setSelection(6);
+        spinnerMonth.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                //当选择后
+                switch ((int)id){
+                    case 0:
+                        monthStr = "1";
+                        break;
+                    case 1:
+                        monthStr = "2";
+                        break;
+                    case 2:
+                        monthStr = "3";
+                        break;
+                    case 3:
+                        monthStr = "4";
+                        break;
+                    case 4:
+                        monthStr = "5";
+                        break;
+                    case 5:
+                        monthStr = "6";
+                        break;
+                    case 6:
+                        monthStr = "7";
+                        break;
+                    case 7:
+                        monthStr = "8";
+                        break;
+                    case 8:
+                        monthStr = "9";
+                        break;
+                    case 9:
+                        monthStr = "10";
+                        break;
+                    case 10:
+                        monthStr = "11";
+                        break;
+                    case 11:
+                        monthStr = "12";
+                        break;
+                }
+                Init();
                 UpdateChart();
             }
 

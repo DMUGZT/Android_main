@@ -57,6 +57,7 @@ public class IncomeDAO {
 //    public Cursor getAllIncomes() {
 //        return database.query(DatabaseHelper.TABLE_INCOME, null, null, null, null, null, DatabaseHelper.COLUMN_INCOME_DATE + " DESC");
 //    }
+
     public boolean DeleteById(int id){
         String whereClause = "_id = ?";
         String[] whereArgs = new String[] { String.valueOf(id) };

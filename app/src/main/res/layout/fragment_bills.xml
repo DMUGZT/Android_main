@@ -6,28 +6,21 @@
     android:orientation="vertical"
     android:padding="16dp">
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/yearSelectionLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center_horizontal">
+        android:layout_height="wrap_content">
 
         <!-- 年份选择 -->
-        <LinearLayout
-            android:id="@+id/spinnerLayout"
+        <Spinner
+            android:id="@+id/year_spinner"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_gravity="start"
-            android:gravity="center_vertical">
-
-            <Spinner
-                android:id="@+id/year_spinner"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"/>
-        </LinearLayout>
+            android:layout_marginTop="8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginEnd="16dp" />
 
         <!-- 切换按钮 -->
         <LinearLayout
@@ -35,26 +28,29 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginRight="80dp"
-            android:gravity="center_horizontal">
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintStart_toEndOf="@+id/year_spinner"
+            app:layout_constraintTop_toTopOf="parent">
 
             <Button
                 android:id="@+id/btnMonthlyReport"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="月账单"
                 android:backgroundTint="@color/pink"
+                android:text="月账单"
                 android:textColor="@android:color/black" />
 
             <Button
                 android:id="@+id/btnYearlyReport"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="年账单"
                 android:backgroundTint="@color/white"
+                android:text="年账单"
                 android:textColor="@android:color/black" />
         </LinearLayout>
-    </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <!-- 年结余信息 -->
     <LinearLayout

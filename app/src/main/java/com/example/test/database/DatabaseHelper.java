@@ -13,7 +13,7 @@ import java.util.Random;
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "app.db";
-    private static final int DATABASE_VERSION = 12; // 增加数据库版本
+    private static final int DATABASE_VERSION = 14; // 增加数据库版本
 
 
     // 用户表
@@ -108,7 +108,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             upgradeToVersion3(db);
         }
         if (oldVersion < DATABASE_VERSION) {
-            upgradeToVersion12(db);
+            upgradeToVersion14(db);
         }
         // 如果有更多的升级可以添加更多的条件
 
@@ -116,6 +116,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     private void createTables(SQLiteDatabase db) {
 
+        // 创建用户表
         // 创建用户表
         String createUserTable = "CREATE TABLE " + TABLE_USER + " (" +
                 COLUMN_USER_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
@@ -126,9 +127,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 COLUMN_GENDER + " TEXT, " +
                 COLUMN_PHONE + " TEXT, " +
                 COLUMN_EMAIL + " TEXT, " +
-                COLUMN_PERMISSION + " INTEGER" +
+                COLUMN_PERMISSION + " INTEGER, " +
+                COLUMN_IS_DELETE + " INTEGER DEFAULT 0" +  // 新增 is_delete 列
                 ")";
         db.execSQL(createUserTable);
+
 
 
         // 创建账户表
@@ -213,21 +216,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private void upgradeToVersion3(SQLiteDatabase db) {
         // 创建新表
         createTables(db);
+        db.execSQL("ALTER TABLE " + TABLE_USER + " ADD COLUMN " + COLUMN_IS_DELETE + " INTEGER");
     }
     private void upgradeToVersion10(SQLiteDatabase db) {
         // 创建新表
         createTables(db);
     }
 
-    private void upgradeToVersion11(SQLiteDatabase db) {
+    private void upgradeToVersion14(SQLiteDatabase db) {
         // 添加新列到现有的用户表
         db.execSQL("ALTER TABLE " + TABLE_USER + " ADD COLUMN " + COLUMN_IS_DELETE + " INTEGER");
 
     }
 
-    private void upgradeToVersion12(SQLiteDatabase db) {
-//        insertIncomeData();
-    }
     private void dropTables(SQLiteDatabase db) {
         // 删除所有表
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_USER);
